@@ -5,7 +5,7 @@
 
 class Game {
 	public:
-		Game(SDL_Renderer * renderer, int screenHeight, int screenWidth);
+		Game(SDL_Renderer * renderer, int screen_height, int screen_width);
 		~Game();
 		void start();
 
@@ -18,14 +18,14 @@ class Game {
 
 		SDL_Renderer * renderer;
 
-		int screenWidth;
-		int screenHeight;
+		int screen_width;
+		int screen_height;
 
 
 
-		int screen_r = 0;
-		int screen_g = 0;
-		int screen_b = 0;
+		int screen_r = 0x00;
+		int screen_g = 0x00;
+		int screen_b = 0x00;
 };
 
 #endif

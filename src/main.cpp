@@ -4,80 +4,79 @@
 #include <iostream>
 #include <sstream>
 
-SDL_Window* window = NULL;
-SDL_Renderer* renderer = NULL;
-int screenWidth = 0;
-int screenHeight = 0;
-
-Game* game;
-
-bool init();
-void close();
+bool init(SDL_Window **window, SDL_Renderer **renderer, int *screen_width, int *screen_height);
+void close(SDL_Window *window);
 void printSDLError();
 void printIMGError();
 void printTTFError();
 
-int main(int argc, char* args[])
+int main(int argc, char *args[])
 {
-	if (init())
+	SDL_Window *window = nullptr;
+	SDL_Renderer *renderer = nullptr;
+	int screen_width = 0;
+	int screen_height = 0;
+
+	if (init(&window, &renderer, &screen_height, &screen_width))
 	{
-		game = new Game(renderer, screenHeight, screenWidth);
-		game->start();
+		Game game(renderer, screen_height, screen_width);
+		game.start();
 	}
-	close();
+	close(window);
 
 	return 0;
 }
-bool init()
+
+bool init(SDL_Window **window, SDL_Renderer **renderer, int *screen_height, int *screen_width)
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0)
 	{
 		printSDLError();
 		return false;
 	}
-	SDL_DisplayMode displayMode;
+	SDL_DisplayMode display_mode;
 
 	//Handles multiple displays
 	/*for (int i = 0; i < SDL_GetNumVideoDisplays(); ++i)
 	{
-		if (SDL_GetCurrentDisplayMode(i, &displayMode) != 0)
+		if (SDL_GetCurrentDisplayMode(i, &display_mode) != 0)
 		{
 			continue;
 		}
 
-		screenWidth += displayMode.w;
-		if (screenHeight < displayMode.h)
+		screen_width += display_mode.w;
+		if (screen_height < display_mode.h)
 		{
-			screenHeight = displayMode.h;
+			screen_height = display_mode.h;
 		}
 	}*/
 
 	//Just one
-	if (SDL_GetCurrentDisplayMode(0, &displayMode) != 0)
+	if (SDL_GetCurrentDisplayMode(0, &display_mode) != 0)
 	{
 		printSDLError();
 		return false;
 	}
 
-	screenWidth = displayMode.w;
-	screenHeight = displayMode.h;
+	*screen_width = display_mode.w;
+	*screen_height = display_mode.h;
 
-	window = SDL_CreateWindow("I AM SO TIRED", 0, 0, screenWidth, screenHeight, SDL_WINDOW_BORDERLESS);
-	if (window == NULL)
+	*window = SDL_CreateWindow("I AM SO TIRED", 0, 0, *screen_width, *screen_height, SDL_WINDOW_BORDERLESS);
+	if (*window == NULL)
 	{
 		printSDLError();
 		return false;
 	}
 
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	if (renderer == NULL)
+	*renderer = SDL_CreateRenderer(*window, -1, SDL_RENDERER_ACCELERATED);
+	if (*renderer == NULL)
 	{
 		return false;
 	}
-	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
+	SDL_SetRenderDrawColor(*renderer, 0x00, 0x00, 0x00, 0x00);
 	
-	int imgFlags = IMG_INIT_PNG;
-	if (!(IMG_Init(imgFlags) & imgFlags))
+	int image_flags = IMG_INIT_PNG;
+	if (!(IMG_Init(image_flags) & image_flags))
 	{
 		printIMGError();
 		return false;
@@ -92,11 +91,8 @@ bool init()
 	return true;
 }
 
-void close()
+void close(SDL_Window *window)
 {
-	delete game;
-
 	SDL_DestroyWindow(window);
-	window = NULL;
 	SDL_Quit();
 }

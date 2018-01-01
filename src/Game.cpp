@@ -1,13 +1,13 @@
 #include "Game.hpp"
-#include <string.h>
+#include <cstring>
 
 Uint32 pauseCallback(Uint32 interval, void* param);
 
-Game::Game(SDL_Renderer* renderer, int screenHeight, int screenWidth) 
+Game::Game(SDL_Renderer* renderer, int screen_height, int screen_width) 
 {
 	this->renderer = renderer;
-	this->screenWidth = screenWidth;
-	this->screenHeight = screenHeight;
+	this->screen_width = screen_width;
+	this->screen_height = screen_height;
 }
 
 Game::~Game()
@@ -45,7 +45,15 @@ void Game::run()
 			{
 				quit = true;
 			}
+			else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_a)
+			{
+				printf("AAAA\n");
+			}
 		}
+
+
+		const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+		if (currentKeyStates)
 
 		update();
 		draw();
@@ -59,7 +67,7 @@ void Game::update()
 
 void Game::draw()
 {
-	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
+	SDL_SetRenderDrawColor(renderer, screen_r, screen_g, screen_b, 0xFF);
 	SDL_RenderClear(renderer);
 	SDL_RenderPresent(renderer);
 }
