@@ -1,0 +1,8 @@
+1. Get keyboard input to work - change screen color
+3. Get HUD to work
+	-FPS Counter
+	-Put it in a box (from a .png)
+4. Menu w/ navigation
+	-keyboard
+	-controller
+	-mouse
