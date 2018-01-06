@@ -1,13 +1,19 @@
 #include "HUDElement.hpp"
 #include "SDLCore.hpp"
 
-HUDElement::HUDElement() {}
-
 HUDElement::HUDElement(point_f *position)
 {
-	this->rect = new SDL_Rect();
+	rect = new SDL_Rect;
 	rect->x = position->x;
 	rect->y = position->y;
+}
+
+HUDElement::~HUDElement()
+{
+	if (rect != nullptr)
+	{
+		delete rect;
+	}
 }
 
 SDL_Rect *HUDElement::Rect()

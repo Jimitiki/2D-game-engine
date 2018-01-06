@@ -14,14 +14,12 @@ class Game {
 
 	private:
 		void run();
-		void update(float delta_time);
+		void update(int delta_time);
 		void draw();
 		bool init();
 		void quit();
 
 		SDL_Renderer * renderer;
-		SDL_Texture * fpsCounter = nullptr;
-		SDL_Rect * fpsHolder;
 
 		int screen_width;
 		int screen_height;
@@ -37,13 +35,7 @@ class Game {
 
 
     	int lastUpdateTime;
-		int frameCounter = 0;
 		int deltaT;
-		int lastFPSCheck;
-
-		const int FPS_UPDATE = 1000;
-		const std::string FPS_FONT_NAME = "/home/chris/Documents/code/2D-game-engine/assets/font/FUTRFW.TTF";
-		TTF_Font * fpsFont = nullptr;
 };
 
 #endif

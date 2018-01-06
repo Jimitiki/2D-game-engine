@@ -1,6 +1,8 @@
 #ifndef FPSDISPLAY_HPP_
 #define FPSDISPLAY_HPP_
 
+#include <string>
+
 #include "SDLCore.hpp"
 #include "HUDElement.hpp"
 #include "geometry.hpp"
@@ -9,17 +11,19 @@
 class FPSDisplay : private HUDElement
 {
 	public:
-		FPSDisplay(int update_time);
 		FPSDisplay(point_f *position, int update_time);
-		void update(float delta_time);
+		void update(int delta_time);
 		void draw(SDL_Renderer *renderer);
 
 	private:
-		SDL_Texture *texture;
-		TTF_Font *font;
+		SDL_Texture *texture = nullptr;
+		TTF_Font *font = nullptr;
 
-		int update_time = 2000;
-		float elapsed_time = 0;
+		std::string FONT_NAME = "Futrfw.ttf";
+		int FONT_SIZE = 14;
+
+		int update_time;
+		int elapsed_time = 0;
 		int frame_counter = 0;
 		int fps = -1;
 };

@@ -16,26 +16,20 @@ Game::Game(SDL_Renderer* renderer, int screen_height, int screen_width)
 
 Game::~Game()
 {
+	delete fps_display;
 }
 
 bool Game::init()
 {
-	fps_display = new FPSDisplay(1000);
+	point_f fps_position = {0.0f, 0.0f};
+	fps_display = new FPSDisplay(&fps_position, 600);
 
-
-	lastFPSCheck = 0;
-
-	fpsHolder = new SDL_Rect;
-	fpsHolder->x = 10;
-	fpsHolder->y = 10;
     return true;
 }
 
 void Game::quit()
 {
-	TTF_CloseFont(fpsFont);
-	SDL_DestroyTexture(fpsCounter);
-	delete fpsHolder;
+
 }
 
 void Game::start()
@@ -110,7 +104,7 @@ void Game::run()
 	}
 }
 
-void Game::update(float delta_time)
+void Game::update(int delta_time)
 {
 	fps_display->update(delta_time);
 }
@@ -119,39 +113,8 @@ void Game::draw()
 {
 	SDL_SetRenderDrawColor(renderer, screen_r, screen_g, screen_b, 0xFF);
 	SDL_RenderClear(renderer);
-	if (frameCounter++ == FPS_UPDATE) {
-		float time = lastUpdateTime - lastFPSCheck;
-		lastFPSCheck = lastUpdateTime;
-		std::stringstream ss;
-		ss << (int) (FPS_UPDATE / (time / 1000));
-		std::string fps = ss.str();
-		if (fpsFont == nullptr)
-		{
-			fpsFont = TTF_OpenFont(FPS_FONT_NAME.c_str(), 14);
-			if (fpsFont == nullptr)
-			{
-				printTTFError();
-			}
-		}
-		
-		SDL_Surface* surfaceMessage = TTF_RenderText_Solid(fpsFont, fps.c_str(), {80, 255, 0});
-		if (surfaceMessage == nullptr)
-		{
-			printTTFError();
-		}
-		fpsHolder->w = surfaceMessage->w;
-		fpsHolder->h = surfaceMessage->h; 
-		fpsCounter = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
-
-		SDL_FreeSurface(surfaceMessage);
-		frameCounter = 0;
-	}
-
-	if (fpsCounter != nullptr)
-	{
-		SDL_RenderCopy(renderer, fpsCounter, nullptr, fpsHolder);
-	}
 
 	fps_display->draw(renderer);
+
 	SDL_RenderPresent(renderer);
 }
