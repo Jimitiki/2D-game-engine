@@ -5,7 +5,7 @@
 #include <sstream>
 
 bool init(SDL_Window **window, SDL_Renderer **renderer, int *screen_width, int *screen_height);
-void close(SDL_Window *window);
+void close(SDL_Window **window, SDL_Renderer **renderer);
 void printSDLError();
 void printIMGError();
 void printTTFError();
@@ -22,7 +22,7 @@ int main(int argc, char *args[])
 		Game game(renderer, screen_height, screen_width);
 		game.start();
 	}
-	close(window);
+	close(&window, &renderer);
 
 	return 0;
 }
@@ -34,6 +34,20 @@ bool init(SDL_Window **window, SDL_Renderer **renderer, int *screen_height, int 
 		printSDLError();
 		return false;
 	}
+	
+	int image_flags = IMG_INIT_PNG;
+	if (!(IMG_Init(image_flags) & image_flags))
+	{
+		printIMGError();
+		return false;
+	}
+
+	if (TTF_Init() == -1)
+	{
+		printTTFError();
+		return false;
+	}
+	
 	SDL_DisplayMode display_mode;
 
 	//Handles multiple displays
@@ -74,25 +88,14 @@ bool init(SDL_Window **window, SDL_Renderer **renderer, int *screen_height, int 
 		return false;
 	}
 	SDL_SetRenderDrawColor(*renderer, 0x00, 0x00, 0x00, 0x00);
-	
-	int image_flags = IMG_INIT_PNG;
-	if (!(IMG_Init(image_flags) & image_flags))
-	{
-		printIMGError();
-		return false;
-	}
-
-	if (TTF_Init() == -1)
-	{
-		printTTFError();
-		return false;
-	}
 
 	return true;
 }
 
-void close(SDL_Window *window)
+void close(SDL_Window **window, SDL_Renderer **renderer)
 {
-	SDL_DestroyWindow(window);
+	SDL_DestroyWindow(*window);
+	SDL_DestroyRenderer(*renderer);
+	TTF_Quit();
 	SDL_Quit();
 }
