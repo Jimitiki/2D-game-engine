@@ -8,7 +8,7 @@
 #include "geometry.hpp"
 
 
-class FPSDisplay : private HUDElement
+class FPSDisplay : public HUDElement
 {
 	public:
 		FPSDisplay(point_f *position, int update_time);

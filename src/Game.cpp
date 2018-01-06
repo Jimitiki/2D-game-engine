@@ -4,6 +4,7 @@
 
 #include "geometry.hpp"
 #include "FPSDisplay.hpp"
+#include "HUDManager.hpp"
 
 Uint32 pauseCallback(Uint32 interval, void* param);
 
@@ -22,7 +23,10 @@ Game::~Game()
 bool Game::init()
 {
 	point_f fps_position = {0.0f, 0.0f};
-	fps_display = new FPSDisplay(&fps_position, 600);
+	HUD::add(new FPSDisplay(&fps_position, 600));
+	fps_position.x = 800.0f;
+	fps_position.y = 350.0f;
+	HUD::add(new FPSDisplay(&fps_position, 600));
 
     return true;
 }
@@ -106,7 +110,7 @@ void Game::run()
 
 void Game::update(int delta_time)
 {
-	fps_display->update(delta_time);
+	HUD::update(delta_time);
 }
 
 void Game::draw()
@@ -114,7 +118,7 @@ void Game::draw()
 	SDL_SetRenderDrawColor(renderer, screen_r, screen_g, screen_b, 0xFF);
 	SDL_RenderClear(renderer);
 
-	fps_display->draw(renderer);
+	HUD::draw(renderer);
 
 	SDL_RenderPresent(renderer);
 }

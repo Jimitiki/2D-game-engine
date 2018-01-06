@@ -7,7 +7,7 @@
 FPSDisplay::FPSDisplay(point_f *position, int update_time) : HUDElement(position)
 {
 	this->update_time = update_time;
-	AssetManager::font(&FONT_NAME, FONT_SIZE, &font);
+	Asset::font(&FONT_NAME, FONT_SIZE, &font);
 }
 
 void FPSDisplay::update(int delta_time)

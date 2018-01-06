@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include "AssetManager.hpp"
 
-namespace AssetManager
+namespace Asset
 {
 	namespace
 	{
@@ -11,38 +11,43 @@ namespace AssetManager
 		std::unordered_map<std::string, TTF_Font *> fonts;
 		std::unordered_map<std::string, SDL_Surface *> surfaces;
 	}
+}
+	
+bool Asset::font(std::string *font_name, int font_size, TTF_Font **font)
+{
+	std::stringstream key_stream;
+	key_stream << *font_name << font_size;
 
-	bool font(std::string *font_name, int font_size, TTF_Font **font)
+	//uniquely tag each font name with the file name & the font size
+	std::string key = key_stream.str();
+	
+	std::unordered_map<std::string, TTF_Font *>::iterator result = fonts.find(key);
+	if (result == fonts.end())
 	{
-		std::stringstream key_stream;
-		key_stream << *font_name << font_size;
-
-		//uniquely tag each font name with the file name & the font size
-		std::string key = key_stream.str();
-		
-		std::unordered_map<std::string, TTF_Font *>::iterator result = fonts.find(key);
-		if (result == fonts.end())
+		std::string font_file = FONT_DIR + *font_name;
+		*font = TTF_OpenFont(font_file.c_str(), font_size);
+		if (*font == nullptr)
 		{
-			std::string font_file = FONT_DIR + *font_name;
-			*font = TTF_OpenFont(font_file.c_str(), font_size);
-			if (*font == nullptr)
-			{
-				printTTFError();
-				return false;
-			}
-			std::pair<std::string, TTF_Font *> new_font(key, *font);
-			fonts.insert(new_font);
+			printTTFError();
+			return false;
 		}
-		else
-		{
-			*font = result->second;
-		}
-		return true;
+		std::pair<std::string, TTF_Font *> new_font(key, *font);
+		fonts.insert(new_font);
 	}
-
-	bool surface(std::string *surface_name, SDL_Surface **surface)
+	else
 	{
-		*surface = nullptr; 
-		return false;
+		*font = result->second;
 	}
+	return true;
+}
+
+bool Asset::surface(std::string *surface_name, SDL_Surface **surface)
+{
+	*surface = nullptr; 
+	return false;
+}
+
+void Asset::destroy()
+{
+
 }
