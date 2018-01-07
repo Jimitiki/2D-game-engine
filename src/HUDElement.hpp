@@ -9,13 +9,16 @@ class SDL_Renderer;
 class HUDElement
 {
 	public:
-		HUDElement(point_f *position);
+		HUDElement(PointF *position);
 		virtual ~HUDElement();
 		virtual void draw(SDL_Renderer *renderer) = 0;
 		virtual void update(int delta_time) = 0;
+	
+	protected:
 		SDL_Rect *Rect();
 		void Rect(SDL_Rect *rect);
-	protected:
+
+	private:
 		SDL_Rect *rect = nullptr;
 };
 

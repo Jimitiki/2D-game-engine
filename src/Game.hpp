@@ -29,9 +29,9 @@ class Game {
 
 
 
-		int screen_r = 0x00;
-		int screen_g = 0x00;
-		int screen_b = 0x00;
+		int screen_r = 0xFF;
+		int screen_g = 0xFF;
+		int screen_b = 0xFF;
 };
 
 #endif

@@ -12,7 +12,7 @@ class Sprite;
 class FPSDisplay : public HUDElement
 {
 	public:
-		FPSDisplay(point_f *position, int update_time);
+		FPSDisplay(PointF *position, int update_time);
 		void update(int delta_time);
 		void draw(SDL_Renderer *renderer);
 

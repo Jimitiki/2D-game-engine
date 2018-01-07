@@ -6,7 +6,7 @@
 #include "AssetManager.hpp"
 #include "Animation.hpp"
 
-FPSDisplay::FPSDisplay(point_f *position, int update_time) : HUDElement(position)
+FPSDisplay::FPSDisplay(PointF *position, int update_time) : HUDElement(position)
 {
 	this->update_time = update_time;
 	Asset::font(&FONT_NAME, FONT_SIZE, &font);
@@ -33,8 +33,8 @@ FPSDisplay::FPSDisplay(point_f *position, int update_time) : HUDElement(position
 	sprite_rect->x = position->x;
 	sprite_rect->y = position->y;
 	std::string sprite_image = "fpsbackground_anim.png";
-	//background = new Animation(&sprite_image, rects, sprite_rect, nullptr, 200);
-	background = new Sprite(&sprite_image, rects->at(2), sprite_rect);
+	background = new Animation(&sprite_image, rects, sprite_rect, nullptr, 200);
+	//background = new Sprite(&sprite_image, rects->at(2), sprite_rect);
 }
 
 void FPSDisplay::update(int delta_time)

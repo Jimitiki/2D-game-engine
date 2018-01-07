@@ -22,5 +22,6 @@ namespace GameUtil
 void print_sdl_error();
 void print_img_error();
 void print_ttf_error();
+void print_SDL_Rect(SDL_Rect *rect);
 
 #endif

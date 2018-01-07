@@ -54,11 +54,11 @@ Game::~Game()
 
 bool Game::init()
 {
-	point_f fps_position = {0.0f, 0.0f};
+	PointF fps_position = {0.0f, 0.0f};
 	HUD::add(new FPSDisplay(&fps_position, 600));
-	// fps_position.x = screen_width - 57.0f;
-	// fps_position.y = screen_height - 20.0f;
-	// HUD::add(new FPSDisplay(&fps_position, 600));
+	fps_position.x = screen_width - 57.0f;
+	fps_position.y = screen_height - 20.0f;
+	HUD::add(new FPSDisplay(&fps_position, 600));
 
     return true;
 }
@@ -129,19 +129,19 @@ void Game::run()
 		}
 		else
 		{
-			screen_b = 0x00;
-			screen_r = 0x00;
-			screen_g = 0x00;
+			screen_b = 0xFF;
+			screen_r = 0xFF;
+			screen_g = 0xFF;
 		}
 
 		prev_ticks = ticks;
 
-		// if (ticks >= 580 && !fps_spawned)
-		// {
-		// 	fps_spawned = true;
-		// 	point_f fps_position = {57.0f, 20.0f};
-		// 	HUD::add(new FPSDisplay(&fps_position, 600));
-		// }
+		if (ticks >= 580 && !fps_spawned)
+		{
+			fps_spawned = true;
+			PointF fps_position = {57.0f, 20.0f};
+			HUD::add(new FPSDisplay(&fps_position, 600));
+		}
 
 		update();
 		draw();
@@ -159,6 +159,6 @@ void Game::draw()
 	SDL_RenderClear(renderer);
 
 	HUD::draw(renderer);
-
+	
 	SDL_RenderPresent(renderer);
 }

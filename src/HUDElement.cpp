@@ -1,7 +1,7 @@
 #include "HUDElement.hpp"
 #include "SDLCore.hpp"
 
-HUDElement::HUDElement(point_f *position)
+HUDElement::HUDElement(PointF *position)
 {
 	rect = new SDL_Rect;
 	rect->x = position->x;

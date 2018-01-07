@@ -5,7 +5,7 @@ typedef struct
 {
 	float x;
 	float y;
-} point_f;
+} PointF;
 
 typedef struct
 {
@@ -13,6 +13,6 @@ typedef struct
 	float left;
 	float top;
 	float width;
-} rect_f;
+} rectF;
 
 #endif

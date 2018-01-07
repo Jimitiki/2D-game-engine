@@ -39,9 +39,5 @@ void Sprite::draw(SDL_Renderer *renderer)
 
 void Sprite::Src_rect(SDL_Rect *src_rect)
 {
-	if (src_rect != nullptr)
-	{
-		delete src_rect;
-	}
 	this->src_rect = src_rect;
 }
