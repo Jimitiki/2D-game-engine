@@ -7,6 +7,7 @@
 #include "HUDElement.hpp"
 #include "geometry.hpp"
 
+class Sprite;
 
 class FPSDisplay : public HUDElement
 {
@@ -18,6 +19,8 @@ class FPSDisplay : public HUDElement
 	private:
 		SDL_Texture *texture = nullptr;
 		TTF_Font *font = nullptr;
+
+		Sprite *background;
 
 		std::string FONT_NAME = "Futrfw.ttf";
 		int FONT_SIZE = 14;

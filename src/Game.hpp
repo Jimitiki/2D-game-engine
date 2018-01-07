@@ -2,8 +2,8 @@
 #define GAME_HPP_
 
 #include <string>
-#include "SDLCore.hpp"
 
+struct SDL_Renderer;
 class FPSDisplay;
 
 class Game {
@@ -14,7 +14,7 @@ class Game {
 
 	private:
 		void run();
-		void update(int delta_time);
+		void update();
 		void draw();
 		bool init();
 		void quit();
@@ -24,18 +24,14 @@ class Game {
 		int screen_width;
 		int screen_height;
 
+    	int prev_ticks;
+		int delta_time;
 
-
-		FPSDisplay *fps_display;
 
 
 		int screen_r = 0x00;
 		int screen_g = 0x00;
 		int screen_b = 0x00;
-
-
-    	int lastUpdateTime;
-		int deltaT;
 };
 
 #endif

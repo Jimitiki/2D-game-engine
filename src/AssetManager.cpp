@@ -9,7 +9,7 @@ namespace Asset
 		std::string FONT_DIR = "../assets/font/";
 		std::string IMAGE_DIR = "../assets/img/";
 		std::unordered_map<std::string, TTF_Font *> fonts;
-		std::unordered_map<std::string, SDL_Surface *> surfaces;
+		std::unordered_map<std::string, SDL_Surface *> images;
 	}
 }
 	
@@ -28,7 +28,7 @@ bool Asset::font(std::string *font_name, int font_size, TTF_Font **font)
 		*font = TTF_OpenFont(font_file.c_str(), font_size);
 		if (*font == nullptr)
 		{
-			printTTFError();
+			print_ttf_error();
 			return false;
 		}
 		std::pair<std::string, TTF_Font *> new_font(key, *font);
@@ -41,13 +41,36 @@ bool Asset::font(std::string *font_name, int font_size, TTF_Font **font)
 	return true;
 }
 
-bool Asset::surface(std::string *surface_name, SDL_Surface **surface)
+bool Asset::image(std::string *image_name, SDL_Surface **surface)
 {
-	*surface = nullptr; 
+	std::unordered_map<std::string, SDL_Surface *>::iterator result = images.find(*image_name);
+	if (result == images.end())
+	{
+		std::string image_file = IMAGE_DIR + *image_name;
+		*surface = IMG_Load(image_file.c_str());
+		if (*surface == nullptr)
+		{
+			print_img_error();
+			return false;
+		}
+		std::pair<std::string, SDL_Surface *> new_image(*image_name, *surface);
+		images.insert(new_image);
+	}
+	else
+	{
+		*surface = result->second;
+	}
 	return false;
 }
 
-void Asset::destroy()
+void Asset::unload_all()
 {
-
+	for (auto iterator : fonts)
+	{
+		TTF_CloseFont(iterator.second);
+	}
+	for (auto iterator : images)
+	{
+		SDL_FreeSurface(iterator.second);
+	}
 }

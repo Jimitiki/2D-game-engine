@@ -30,3 +30,11 @@ void HUD::draw(SDL_Renderer *renderer)
 		hud_elements[i]->draw(renderer);
 	}
 }
+
+void HUD::destroy()
+{
+	for (unsigned int i = 0; i < hud_elements.size(); i++)
+	{
+		delete hud_elements[i];
+	}
+}

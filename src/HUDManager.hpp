@@ -10,6 +10,7 @@ namespace HUD
 	void add(HUDElement *hud_element);
 	void update(int delta_time);
 	void draw(SDL_Renderer *renderer);
+	void destroy();
 }
 
 #endif

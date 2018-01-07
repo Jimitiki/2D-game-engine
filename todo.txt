@@ -1,6 +1,6 @@
-1. Get keyboard input to work - change screen color
+1. Get keyboard input to work - change screen color		- done
 3. Get HUD to work
-	-FPS Counter
+	-FPS Counter										- done
 	-Put it in a box (from a .png)
 4. Menu w/ navigation
 	-keyboard

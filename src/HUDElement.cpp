@@ -10,10 +10,7 @@ HUDElement::HUDElement(point_f *position)
 
 HUDElement::~HUDElement()
 {
-	if (rect != nullptr)
-	{
-		delete rect;
-	}
+	//delete rect;
 }
 
 SDL_Rect *HUDElement::Rect()

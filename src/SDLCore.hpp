@@ -13,8 +13,14 @@
 
 #endif
 
-void printSDLError();
-void printIMGError();
-void printTTFError();
+namespace GameUtil
+{
+	SDL_Renderer *renderer();
+	int delta_time();
+}
+
+void print_sdl_error();
+void print_img_error();
+void print_ttf_error();
 
 #endif

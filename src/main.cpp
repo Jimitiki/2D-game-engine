@@ -6,9 +6,9 @@
 
 bool init(SDL_Window **window, SDL_Renderer **renderer, int *screen_width, int *screen_height);
 void close(SDL_Window **window, SDL_Renderer **renderer);
-void printSDLError();
-void printIMGError();
-void printTTFError();
+void print_sdl_error();
+void print_img_error();
+void print_ttf_error();
 
 int main(int argc, char *args[])
 {
@@ -31,20 +31,20 @@ bool init(SDL_Window **window, SDL_Renderer **renderer, int *screen_height, int 
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0)
 	{
-		printSDLError();
+		print_sdl_error();
 		return false;
 	}
 	
 	int image_flags = IMG_INIT_PNG;
 	if (!(IMG_Init(image_flags) & image_flags))
 	{
-		printIMGError();
+		print_img_error();
 		return false;
 	}
 
 	if (TTF_Init() == -1)
 	{
-		printTTFError();
+		print_ttf_error();
 		return false;
 	}
 	
@@ -68,17 +68,17 @@ bool init(SDL_Window **window, SDL_Renderer **renderer, int *screen_height, int 
 	//Just one
 	if (SDL_GetCurrentDisplayMode(0, &display_mode) != 0)
 	{
-		printSDLError();
+		print_sdl_error();
 		return false;
 	}
 
 	*screen_width = display_mode.w;
 	*screen_height = display_mode.h;
 
-	*window = SDL_CreateWindow("I AM SO TIRED", 0, 0, *screen_width, *screen_height, SDL_WINDOW_BORDERLESS);
+	*window = SDL_CreateWindow("I AM SO TIRED", 0, 0, *screen_width, *screen_height, SDL_WINDOW_FULLSCREEN);
 	if (*window == NULL)
 	{
-		printSDLError();
+		print_sdl_error();
 		return false;
 	}
 
