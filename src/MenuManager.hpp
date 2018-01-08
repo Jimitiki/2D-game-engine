@@ -3,7 +3,10 @@
 
 namespace MenuManager
 {
-
+	namespace
+	{
+		
+	}
 }
 
 #endif

@@ -7,6 +7,12 @@
 #include "FPSDisplay.hpp"
 #include "AssetManager.hpp"
 #include "HUDManager.hpp"
+#include "Timer.hpp"
+
+void display_fps(void *position)
+{
+	HUD::add(new FPSDisplay((PointF *) position, 600));
+}
 
 namespace GameUtil
 {
@@ -55,10 +61,10 @@ Game::~Game()
 bool Game::init()
 {
 	PointF fps_position = {0.0f, 0.0f};
-	HUD::add(new FPSDisplay(&fps_position, 600));
+	display_fps((void *) (&fps_position));
 	fps_position.x = screen_width - 57.0f;
 	fps_position.y = screen_height - 20.0f;
-	HUD::add(new FPSDisplay(&fps_position, 600));
+	display_fps((void *) (&fps_position));
 
     return true;
 }
@@ -83,6 +89,10 @@ void Game::run()
 	prev_ticks = SDL_GetTicks();
 	SDL_Event event;
 	bool fps_spawned = false;
+
+	PointF fps_position = {57.0f, 20.0f};
+	Timer::bind(display_fps, 2000, (void *) (&fps_position));
+
 	while (!quit)
 	{
 		while (SDL_PollEvent(&event) != 0)
@@ -135,13 +145,6 @@ void Game::run()
 		}
 
 		prev_ticks = ticks;
-
-		if (ticks >= 580 && !fps_spawned)
-		{
-			fps_spawned = true;
-			PointF fps_position = {57.0f, 20.0f};
-			HUD::add(new FPSDisplay(&fps_position, 600));
-		}
 
 		update();
 		draw();
