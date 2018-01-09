@@ -25,7 +25,7 @@ function printMake {
 }
 
 
-echo "C = g++" > Makefile
+echo "C = g++ -std=c++11" > Makefile
 printMake "CFLAGS = -Wall"
 printMake "LFLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf"
 printMake ""
