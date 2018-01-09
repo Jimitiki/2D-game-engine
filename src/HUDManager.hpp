@@ -3,7 +3,7 @@
 
 #include "HUDElement.hpp"
 
-class SDL_Renderer;
+struct SDL_Renderer;
 
 namespace HUD
 {

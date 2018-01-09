@@ -68,6 +68,7 @@ void FPSDisplay::draw(SDL_Renderer *renderer)
 		if (fps_surface == nullptr)
 		{
 			print_ttf_error();
+			return;
 		}
 		Rect()->w = fps_surface->w;
 		Rect()->h = fps_surface->h; 

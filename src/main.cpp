@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <direct.h>
 
 bool init(SDL_Window **window, SDL_Renderer **renderer, int *screen_width, int *screen_height);
 void close(SDL_Window **window, SDL_Renderer **renderer);
@@ -12,6 +13,10 @@ void print_ttf_error();
 
 int main(int argc, char *args[])
 {
+	char cwd[1024];
+	_getcwd(cwd, 1024);
+
+	printf("Working Directory: %s\n", cwd);
 	SDL_Window *window = nullptr;
 	SDL_Renderer *renderer = nullptr;
 	int screen_width = 0;
@@ -75,7 +80,7 @@ bool init(SDL_Window **window, SDL_Renderer **renderer, int *screen_height, int 
 	*screen_width = display_mode.w;
 	*screen_height = display_mode.h;
 
-	*window = SDL_CreateWindow("I AM SO TIRED", 0, 0, *screen_width, *screen_height, SDL_WINDOW_FULLSCREEN);
+	*window = SDL_CreateWindow("I AM SO TIRED", 0, 0, *screen_width, *screen_height, SDL_WINDOW_BORDERLESS);
 	if (*window == NULL)
 	{
 		print_sdl_error();

@@ -12,7 +12,6 @@ class Sprite
 	public:
 		Sprite(std::string *image_name, SDL_Rect *src_rect, SDL_Rect *dest_rect);
 		virtual ~Sprite();
-		virtual void update(int delta_time);
 		virtual void draw(SDL_Renderer *renderer);
 
 	protected:
@@ -20,7 +19,7 @@ class Sprite
 
 	private:
 		SDL_Texture *texture;
-		std::string image_name;
+		std::string *image_name;
 		SDL_Rect *src_rect;
 		SDL_Rect *dest_rect;
 };

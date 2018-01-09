@@ -1,3 +1,5 @@
+#include <exception>
+
 #include "Sprite.hpp"
 #include "SDLCore.hpp"
 #include "AssetManager.hpp"
@@ -29,12 +31,13 @@ Sprite::~Sprite()
 	SDL_DestroyTexture(texture);
 }
 
-void Sprite::update(int delta_time) {}
-
 void Sprite::draw(SDL_Renderer *renderer)
 {
 	SDL_Rect dest = *dest_rect;
-	SDL_RenderCopy(renderer, texture, src_rect, &dest);
+	if (texture != nullptr)
+	{
+		SDL_RenderCopy(renderer, texture, src_rect, &dest);
+	}
 }
 
 void Sprite::Src_rect(SDL_Rect *src_rect)

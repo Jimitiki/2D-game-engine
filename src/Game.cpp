@@ -56,6 +56,7 @@ Game::Game(SDL_Renderer* renderer, int screen_height, int screen_width)
 
 Game::~Game()
 {
+	HUD::destroy();
 }
 
 bool Game::init()
@@ -153,7 +154,8 @@ void Game::run()
 
 void Game::update()
 {
-	HUD::update(GameUtil::delta_time());
+	HUD::update(delta_time);
+	Timer::update(delta_time);
 }
 
 void Game::draw()

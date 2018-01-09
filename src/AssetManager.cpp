@@ -6,8 +6,17 @@ namespace Asset
 {
 	namespace
 	{
+
+		#ifdef __linux__
 		std::string FONT_DIR = "../assets/font/";
 		std::string IMAGE_DIR = "../assets/img/";
+		#endif
+
+		#ifdef _WIN32
+		std::string FONT_DIR = "assets/font/";
+		std::string IMAGE_DIR = "assets/img/";
+		#endif	
+
 		std::unordered_map<std::string, TTF_Font *> fonts;
 		std::unordered_map<std::string, SDL_Surface *> images;
 	}
@@ -29,6 +38,7 @@ bool Asset::font(std::string *font_name, int font_size, TTF_Font **font)
 		if (*font == nullptr)
 		{
 			print_ttf_error();
+			throw std::exception();
 			return false;
 		}
 		std::pair<std::string, TTF_Font *> new_font(key, *font);
@@ -51,6 +61,7 @@ bool Asset::image(std::string *image_name, SDL_Surface **surface)
 		if (*surface == nullptr)
 		{
 			print_img_error();
+			throw std::exception();
 			return false;
 		}
 		std::pair<std::string, SDL_Surface *> new_image(*image_name, *surface);

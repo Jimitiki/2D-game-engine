@@ -4,7 +4,7 @@
 #include "geometry.hpp"
 
 struct SDL_Rect;
-class SDL_Renderer;
+struct SDL_Renderer;
 
 class HUDElement
 {
