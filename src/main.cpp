@@ -3,7 +3,6 @@
 #include <string>
 #include <iostream>
 #include <sstream>
-#include <direct.h>
 
 bool init(SDL_Window **window, SDL_Renderer **renderer, int *screen_width, int *screen_height);
 void close(SDL_Window **window, SDL_Renderer **renderer);
@@ -13,10 +12,6 @@ void print_ttf_error();
 
 int main(int argc, char *args[])
 {
-	char cwd[1024];
-	_getcwd(cwd, 1024);
-
-	printf("Working Directory: %s\n", cwd);
 	SDL_Window *window = nullptr;
 	SDL_Renderer *renderer = nullptr;
 	int screen_width = 0;
@@ -24,8 +19,10 @@ int main(int argc, char *args[])
 
 	if (init(&window, &renderer, &screen_height, &screen_width))
 	{
-		Game game(renderer, screen_height, screen_width);
-		game.start();
+		if (Game::init(renderer, screen_height, screen_width))
+		{
+			Game::run();
+		}
 	}
 	close(&window, &renderer);
 

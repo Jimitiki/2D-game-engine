@@ -28,7 +28,7 @@ Animation::~Animation()
 
 void Animation::draw(SDL_Renderer *renderer)
 {
-	transition_timer -= GameUtil::delta_time();
+	transition_timer -= Game::delta_time();
 	if (transition_timer <= 0)
 	{
 		cur_rect_index++;

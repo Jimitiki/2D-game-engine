@@ -13,7 +13,7 @@
 
 #endif
 
-namespace GameUtil
+namespace Game
 {
 	SDL_Renderer *renderer();
 	int delta_time();

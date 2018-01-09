@@ -14,53 +14,46 @@ void display_fps(void *position)
 	HUD::add(new FPSDisplay((PointF *) position, 600));
 }
 
-namespace GameUtil
+namespace Game
 {
 	namespace
 	{
 		SDL_Renderer *game_renderer;
+		int game_screen_width;
+		int game_screen_height;
+
+    	int prev_ticks;
 		int delta_ticks;
+
+
+
+		int screen_r = 0xFF;
+		int screen_g = 0xFF;
+		int screen_b = 0xFF;
 	}
 
 	void update_renderer(SDL_Renderer *renderer);
 	void update_ticks(int ticks);
+	void update();
+	void draw();
+	void quit();
 }
 
-SDL_Renderer *GameUtil::renderer()
+SDL_Renderer *Game::renderer()
 {
 	return game_renderer;
 }
 
-void GameUtil::update_renderer(SDL_Renderer *renderer)
-{
-	game_renderer = renderer;
-}
-
-int GameUtil::delta_time()
+int Game::delta_time()
 {
 	return delta_ticks;
 }
 
-void GameUtil::update_ticks(int ticks)
+bool Game::init(SDL_Renderer* renderer, int screen_height, int screen_width)
 {
-	delta_ticks = ticks;
-}
-
-Game::Game(SDL_Renderer* renderer, int screen_height, int screen_width) 
-{
-	this->renderer = renderer;
-	GameUtil::update_renderer(renderer);
-	this->screen_width = screen_width;
-	this->screen_height = screen_height;
-}
-
-Game::~Game()
-{
-	HUD::destroy();
-}
-
-bool Game::init()
-{
+	game_renderer = renderer;
+	game_screen_width = screen_width;
+	game_screen_height = screen_height;
 	PointF fps_position = {0.0f, 0.0f};
 	display_fps((void *) (&fps_position));
 	fps_position.x = screen_width - 57.0f;
@@ -72,47 +65,37 @@ bool Game::init()
 
 void Game::quit()
 {
+	HUD::destroy();
 	Asset::unload_all();
-}
-
-void Game::start()
-{
-	if (init())
-	{
-		run();
-	}
-	quit();
 }
 
 void Game::run()
 {
-	bool quit = false;
+	bool end = false;
 	prev_ticks = SDL_GetTicks();
 	SDL_Event event;
-	bool fps_spawned = false;
 
 	PointF fps_position = {57.0f, 20.0f};
 	Timer::bind(display_fps, 2000, (void *) (&fps_position));
 
-	while (!quit)
+	while (!end)
 	{
 		while (SDL_PollEvent(&event) != 0)
 		{
 			if (event.type == SDL_QUIT)
 			{
-				quit = true;
+				end = true;
 			}
 		}
 
 		int ticks = SDL_GetTicks();
-		delta_time = ticks - prev_ticks;
-		GameUtil::update_ticks(delta_time);
+		delta_ticks = ticks - prev_ticks;
 
 		const Uint8* key_states = SDL_GetKeyboardState(NULL);
 		if (key_states[SDL_SCANCODE_ESCAPE] || (key_states[SDL_SCANCODE_LALT] || key_states[SDL_SCANCODE_RALT])
 				&& key_states[SDL_SCANCODE_F4])
 		{
-			quit = true;
+			end = true;
 		}
 		if (key_states[SDL_SCANCODE_A] || key_states[SDL_SCANCODE_LEFT])
 		{
@@ -150,20 +133,21 @@ void Game::run()
 		update();
 		draw();
 	}
+	quit();
 }
 
 void Game::update()
 {
-	HUD::update(delta_time);
-	Timer::update(delta_time);
+	HUD::update(delta_ticks);
+	Timer::update(delta_ticks);
 }
 
 void Game::draw()
 {
-	SDL_SetRenderDrawColor(renderer, screen_r, screen_g, screen_b, 0xFF);
-	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(game_renderer, screen_r, screen_g, screen_b, 0xFF);
+	SDL_RenderClear(game_renderer);
 
-	HUD::draw(renderer);
+	HUD::draw(game_renderer);
 	
-	SDL_RenderPresent(renderer);
+	SDL_RenderPresent(game_renderer);
 }
