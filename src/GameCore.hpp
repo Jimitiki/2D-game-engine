@@ -15,8 +15,8 @@
 
 namespace Game
 {
-	SDL_Renderer *renderer();
-	int delta_time();
+	SDL_Renderer *get_renderer();
+	int get_delta_time();
 }
 
 void print_sdl_error();

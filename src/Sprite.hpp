@@ -18,10 +18,9 @@ class Sprite
 		void Src_rect(SDL_Rect *src_rect);
 
 	private:
-		SDL_Texture *texture;
-		std::string *image_name;
-		SDL_Rect *src_rect;
-		SDL_Rect *dest_rect;
+		SDL_Texture *texture = nullptr;
+		SDL_Rect *src_rect = nullptr;
+		SDL_Rect *dest_rect = nullptr;
 };
 
 #endif

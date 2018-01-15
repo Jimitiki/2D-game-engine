@@ -3,11 +3,12 @@
 #include <sstream>
 
 #include "GameCore.hpp"
-#include "geometry.hpp"
 #include "FPSDisplay.hpp"
 #include "AssetManager.hpp"
 #include "HUDManager.hpp"
 #include "Timer.hpp"
+#include "Cursor.hpp"
+#include "geometry.hpp"
 
 void display_fps(PointF *position, int refresh_ms)
 {
@@ -18,14 +19,15 @@ namespace Game
 {
 	namespace
 	{
-		SDL_Renderer *game_renderer;
-		int game_screen_width;
-		int game_screen_height;
+		SDL_Renderer *renderer;
+		int screen_width;
+		int screen_height;
 
     	int prev_ticks;
-		int delta_ticks;
+		int delta_time;
 
-
+		Cursor *cursor;
+		bool draw_cursor;
 
 		int screen_r = 0xFF;
 		int screen_g = 0xFF;
@@ -37,21 +39,21 @@ namespace Game
 	void quit();
 }
 
-SDL_Renderer *Game::renderer()
+SDL_Renderer *Game::get_renderer()
 {
-	return game_renderer;
+	return Game::renderer;
 }
 
-int Game::delta_time()
+int Game::get_delta_time()
 {
-	return delta_ticks;
+	return delta_time;
 }
 
 bool Game::init(SDL_Renderer* renderer, int screen_height, int screen_width)
 {
-	game_renderer = renderer;
-	game_screen_width = screen_width;
-	game_screen_height = screen_height;
+	Game::renderer = renderer;
+	Game::screen_width = screen_width;
+	Game::screen_height = screen_height;
 	PointF fps_position = {0.0f, 0.0f};
 	display_fps(&fps_position, 600);
 	fps_position.x = screen_width - 57.0f;
@@ -76,6 +78,11 @@ void Game::run()
 	PointF fps_position = {57.0f, 20.0f};
 	Timer::bind(std::bind(display_fps, &fps_position, 1380), 2000);
 
+	PointF cursor_size = {14.0f, 20.0f};
+	std::string cursor_image = "cursor.png";
+	cursor = new Cursor(&cursor_image, nullptr, &cursor_size);
+	enable_cursor();
+
 	while (!end)
 	{
 		while (SDL_PollEvent(&event) != 0)
@@ -87,7 +94,7 @@ void Game::run()
 		}
 
 		int ticks = SDL_GetTicks();
-		delta_ticks = ticks - prev_ticks;
+		delta_time = ticks - prev_ticks;
 
 		const Uint8* key_states = SDL_GetKeyboardState(NULL);
 		if (key_states[SDL_SCANCODE_ESCAPE] || (key_states[SDL_SCANCODE_LALT] || key_states[SDL_SCANCODE_RALT])
@@ -136,16 +143,45 @@ void Game::run()
 
 void Game::update()
 {
-	HUD::update(delta_ticks);
-	Timer::update(delta_ticks);
+	HUD::update(delta_time);
+	Timer::update(delta_time);
+
+	if (draw_cursor && cursor != nullptr)
+	{
+		cursor->update(delta_time);
+	}
 }
 
 void Game::draw()
 {
-	SDL_SetRenderDrawColor(game_renderer, screen_r, screen_g, screen_b, 0xFF);
-	SDL_RenderClear(game_renderer);
+	SDL_SetRenderDrawColor(renderer, screen_r, screen_g, screen_b, 0xFF);
+	SDL_RenderClear(renderer);
 
-	HUD::draw(game_renderer);
+	HUD::draw(renderer);
+	if (draw_cursor && cursor != nullptr)
+	{
+		cursor->draw(renderer);
+	}
 	
-	SDL_RenderPresent(game_renderer);
+	SDL_RenderPresent(renderer);
+}
+
+void Game::set_cursor(Cursor *cursor)
+{
+	Game::cursor = cursor;
+}
+
+void Game::disable_cursor()
+{
+	draw_cursor = false;
+}
+
+void Game::enable_cursor()
+{
+	draw_cursor = true;
+}
+
+bool Game::is_cursor_enabled()
+{
+	return draw_cursor;
 }

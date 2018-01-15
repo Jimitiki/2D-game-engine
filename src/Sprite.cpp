@@ -8,12 +8,18 @@ Sprite::Sprite(std::string *image_name, SDL_Rect *src_rect, SDL_Rect *dest_rect)
 {
 	this->src_rect = new SDL_Rect;
 	this->dest_rect = new SDL_Rect;
-	*(this->src_rect) = *src_rect;
-	*(this->dest_rect) = *dest_rect;
+	if (src_rect != nullptr)
+	{
+		*(this->src_rect) = *src_rect;
+	}
+	if (dest_rect != nullptr)
+	{
+		*(this->dest_rect) = *dest_rect;
+	}
 	SDL_Surface *surface;
 	Asset::image(image_name, &surface);
 
-	texture = SDL_CreateTextureFromSurface(Game::renderer(), surface);
+	texture = SDL_CreateTextureFromSurface(Game::get_renderer(), surface);
 	if (texture == nullptr)
 	{
 		print_sdl_error();
