@@ -13,12 +13,12 @@ HUDElement::~HUDElement()
 	//delete rect;
 }
 
-SDL_Rect *HUDElement::Rect()
+SDL_Rect *HUDElement::get_rect()
 {
 	return rect;
 }
 
-void HUDElement::Rect(SDL_Rect *rect)
+void HUDElement::set_rect(SDL_Rect *rect)
 {
 	this->rect = rect;
 }

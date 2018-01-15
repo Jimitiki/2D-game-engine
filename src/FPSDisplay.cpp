@@ -70,11 +70,11 @@ void FPSDisplay::draw(SDL_Renderer *renderer)
 			print_ttf_error();
 			return;
 		}
-		Rect()->w = fps_surface->w;
-		Rect()->h = fps_surface->h; 
+		get_rect()->w = fps_surface->w;
+		get_rect()->h = fps_surface->h; 
 		texture = SDL_CreateTextureFromSurface(renderer, fps_surface);
 
 		SDL_FreeSurface(fps_surface);
 	}
-	SDL_RenderCopy(renderer, texture, nullptr, Rect());
+	SDL_RenderCopy(renderer, texture, nullptr, get_rect());
 }

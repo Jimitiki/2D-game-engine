@@ -6,8 +6,10 @@
 
 Sprite::Sprite(std::string *image_name, SDL_Rect *src_rect, SDL_Rect *dest_rect)
 {
-	this->src_rect = src_rect;
-	this->dest_rect = dest_rect;
+	this->src_rect = new SDL_Rect;
+	this->dest_rect = new SDL_Rect;
+	*(this->src_rect) = *src_rect;
+	*(this->dest_rect) = *dest_rect;
 	SDL_Surface *surface;
 	Asset::image(image_name, &surface);
 

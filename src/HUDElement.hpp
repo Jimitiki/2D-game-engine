@@ -15,8 +15,8 @@ class HUDElement
 		virtual void update(int delta_time) = 0;
 	
 	protected:
-		SDL_Rect *Rect();
-		void Rect(SDL_Rect *rect);
+		SDL_Rect *get_rect();
+		void set_rect(SDL_Rect *rect);
 
 	private:
 		SDL_Rect *rect = nullptr;

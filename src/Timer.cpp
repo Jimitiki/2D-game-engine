@@ -4,8 +4,7 @@
 
 typedef struct
 {
-	void (*callback_fn) (void *);
-	void *arg;
+	std::function <void()> callback_fn;
 	int delay;
 	int interval;
 	int call_timer;
@@ -20,19 +19,18 @@ namespace Timer
 	}
 }
 
-int Timer::bind(void (*callback_fn) (void *), int delay, void *arg)
+int Timer::bind(std::function <void()> callback_fn, int delay)
 {
-	return bind(callback_fn, delay, -1, arg);
+	return bind(callback_fn, delay, -1);
 }
 
 
-int Timer::bind(void (*callback_fn) (void *), int delay, int interval, void *arg)
+int Timer::bind(std::function <void()> callback_fn, int delay, int interval)
 {
 	timer_callback *callback = new timer_callback;
 	callback->callback_fn = callback_fn;
 	callback->delay = delay;
 	callback->interval = -1;
-	callback->arg = arg;
 	callback->call_timer = delay;
 
 	if (unbound_slots.size() == 0)
@@ -66,7 +64,7 @@ void Timer::update(int delta_time)
 		{
 			continue;
 		}
-		callbacks[i]->callback_fn(callbacks[i]->arg);
+		callbacks[i]->callback_fn ();
 		if (callbacks[i]->interval > 0)
 		{
 			callbacks[i]->call_timer += callbacks[i]->interval;

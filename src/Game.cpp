@@ -9,9 +9,9 @@
 #include "HUDManager.hpp"
 #include "Timer.hpp"
 
-void display_fps(void *position)
+void display_fps(PointF *position, int refresh_ms)
 {
-	HUD::add(new FPSDisplay((PointF *) position, 600));
+	HUD::add(new FPSDisplay(position, refresh_ms));
 }
 
 namespace Game
@@ -55,10 +55,10 @@ bool Game::init(SDL_Renderer* renderer, int screen_height, int screen_width)
 	game_screen_width = screen_width;
 	game_screen_height = screen_height;
 	PointF fps_position = {0.0f, 0.0f};
-	display_fps((void *) (&fps_position));
+	display_fps(&fps_position, 600);
 	fps_position.x = screen_width - 57.0f;
 	fps_position.y = screen_height - 20.0f;
-	display_fps((void *) (&fps_position));
+	display_fps(&fps_position, 1000);
 
     return true;
 }
@@ -76,7 +76,7 @@ void Game::run()
 	SDL_Event event;
 
 	PointF fps_position = {57.0f, 20.0f};
-	Timer::bind(display_fps, 2000, (void *) (&fps_position));
+	Timer::bind(std::bind(display_fps, &fps_position, 1380), 2000);
 
 	while (!end)
 	{
