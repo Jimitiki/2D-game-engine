@@ -1,7 +1,7 @@
 #include <exception>
 
 #include "Sprite.hpp"
-#include "SDLCore.hpp"
+#include "GameCore.hpp"
 #include "AssetManager.hpp"
 
 Sprite::Sprite(std::string *image_name, SDL_Rect *src_rect, SDL_Rect *dest_rect)

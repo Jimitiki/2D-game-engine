@@ -1,5 +1,5 @@
 #include "Animation.hpp"
-#include "SDLCore.hpp"
+#include "GameCore.hpp"
 
 Animation::Animation(std::string *image_name, std::vector<SDL_Rect *> *src_rects, SDL_Rect *dest_rect, std::vector<int> *transition_times, int uniform_transition_time) 
 		: Sprite(image_name, src_rects->at(0), dest_rect)

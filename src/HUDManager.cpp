@@ -1,6 +1,6 @@
 #include <vector>
 #include "HUDManager.hpp"
-#include "SDLCore.hpp"
+#include "GameCore.hpp"
 
 namespace HUD
 {

@@ -1,5 +1,5 @@
 #include "HUDElement.hpp"
-#include "SDLCore.hpp"
+#include "GameCore.hpp"
 
 HUDElement::HUDElement(PointF *position)
 {

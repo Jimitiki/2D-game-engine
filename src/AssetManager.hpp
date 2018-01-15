@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "SDLCore.hpp"
+#include "GameCore.hpp"
 
 namespace Asset
 {

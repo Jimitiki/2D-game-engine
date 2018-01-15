@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "SDLCore.hpp"
+#include "GameCore.hpp"
 #include "HUDElement.hpp"
 #include "geometry.hpp"
 

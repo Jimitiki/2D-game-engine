@@ -1,4 +1,4 @@
-#include "SDLCore.hpp"
+#include "GameCore.hpp"
 #include "Game.hpp"
 #include <string>
 #include <iostream>
@@ -19,6 +19,7 @@ int main(int argc, char *args[])
 
 	if (init(&window, &renderer, &screen_height, &screen_width))
 	{
+		SDL_ShowCursor(SDL_DISABLE);
 		if (Game::init(renderer, screen_height, screen_width))
 		{
 			Game::run();

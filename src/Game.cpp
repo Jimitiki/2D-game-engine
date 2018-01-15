@@ -2,7 +2,7 @@
 #include <cstring>
 #include <sstream>
 
-#include "SDLCore.hpp"
+#include "GameCore.hpp"
 #include "geometry.hpp"
 #include "FPSDisplay.hpp"
 #include "AssetManager.hpp"
@@ -32,8 +32,6 @@ namespace Game
 		int screen_b = 0xFF;
 	}
 
-	void update_renderer(SDL_Renderer *renderer);
-	void update_ticks(int ticks);
 	void update();
 	void draw();
 	void quit();

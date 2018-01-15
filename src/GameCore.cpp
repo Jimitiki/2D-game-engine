@@ -1,5 +1,5 @@
 #include <cstdio>
-#include "SDLCore.hpp"
+#include "GameCore.hpp"
 
 void print_sdl_error()
 {
