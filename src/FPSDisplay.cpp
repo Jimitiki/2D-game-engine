@@ -6,7 +6,7 @@
 #include "AssetManager.hpp"
 #include "Animation.hpp"
 
-FPSDisplay::FPSDisplay(PointF *position, int update_time) : HUDElement(position)
+FPSDisplay::FPSDisplay(point_d *position, int update_time) : HUDElement(position)
 {
 	this->update_time = update_time;
 	Asset::font(&FONT_NAME, FONT_SIZE, &font);

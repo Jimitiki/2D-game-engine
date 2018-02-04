@@ -130,3 +130,12 @@ Managers
 		draws sprites/text to a static position on the screen
 	Viewport/Cameras?
 		Might not be nevessary, but something to handle viewport movement/camera switching could be nice...
+
+
+
+
+Components
+	Graphics Component
+	Collision Component
+	Text Component?
+	Input Component

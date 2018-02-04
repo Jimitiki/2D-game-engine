@@ -13,11 +13,21 @@
 
 #endif
 
+#include <exception>
+
 namespace Game
 {
 	SDL_Renderer *get_renderer();
 	int get_delta_time();
 }
+
+class at_capacity : public std::exception
+{
+	const char *what() const throw()
+	{
+		return "The capacity of this data structure has already been reacehed.";
+	} 
+};
 
 void print_sdl_error();
 void print_img_error();

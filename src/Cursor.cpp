@@ -1,9 +1,9 @@
 #include "Cursor.hpp"
-#include "geometry.hpp"
+#include "rectd.hpp"
 #include "GameCore.hpp"
 #include "AssetManager.hpp"
 
-Cursor::Cursor(std::string *image_name, SDL_Rect *src_rect, PointF *dimensions)
+Cursor::Cursor(std::string *image_name, SDL_Rect *src_rect, point_d *dimensions)
 {
 	dest_rect = new SDL_Rect;
 	if (src_rect != nullptr)
@@ -25,12 +25,7 @@ Cursor::Cursor(std::string *image_name, SDL_Rect *src_rect, PointF *dimensions)
 
 void Cursor::update(int delta_time)
 {
-	int mouse_x;
-	int mouse_y;
-
-	Uint32 mouse_state = SDL_GetMouseState(&mouse_x, &mouse_y);
-	dest_rect->x = mouse_x;
-	dest_rect->y = mouse_y;
+	SDL_GetMouseState(&dest_rect->x, &dest_rect->y);
 }
 
 void Cursor::draw(SDL_Renderer *renderer)

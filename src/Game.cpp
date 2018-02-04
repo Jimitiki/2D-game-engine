@@ -8,12 +8,15 @@
 #include "HUDManager.hpp"
 #include "Timer.hpp"
 #include "Cursor.hpp"
-#include "geometry.hpp"
+#include "rectd.hpp"
+#include "InputManager.hpp"
 
-void display_fps(PointF *position, int refresh_ms)
+void display_fps(point_d *position, int refresh_ms)
 {
 	HUD::add(new FPSDisplay(position, refresh_ms));
 }
+
+
 
 namespace Game
 {
@@ -37,6 +40,18 @@ namespace Game
 	void update();
 	void draw();
 	void quit();
+
+	void escape(SDL_Event *event);
+	void screen_red(SDL_Event *event);
+	
+}
+
+
+void Game::screen_red(SDL_Event *event)
+{
+	screen_r = 0xFF;
+	screen_g = 0x00;
+	screen_b = 0x00;
 }
 
 SDL_Renderer *Game::get_renderer()
@@ -54,7 +69,7 @@ bool Game::init(SDL_Renderer* renderer, int screen_height, int screen_width)
 	Game::renderer = renderer;
 	Game::screen_width = screen_width;
 	Game::screen_height = screen_height;
-	PointF fps_position = {0.0f, 0.0f};
+	point_d fps_position = {0.0f, 0.0f};
 	display_fps(&fps_position, 600);
 	fps_position.x = screen_width - 57.0f;
 	fps_position.y = screen_height - 20.0f;
@@ -75,10 +90,10 @@ void Game::run()
 	prev_ticks = SDL_GetTicks();
 	SDL_Event event;
 
-	PointF fps_position = {57.0f, 20.0f};
+	point_d fps_position = {57.0f, 20.0f};
 	Timer::bind(std::bind(display_fps, &fps_position, 1380), 2000);
 
-	PointF cursor_size = {14.0f, 20.0f};
+	point_d cursor_size = {14.0f, 20.0f};
 	std::string cursor_image = "cursor.png";
 	cursor = new Cursor(&cursor_image, nullptr, &cursor_size);
 	enable_cursor();
@@ -91,47 +106,64 @@ void Game::run()
 			{
 				end = true;
 			}
+			else
+			{
+				Input::handle_input_event(&event);
+			}
 		}
 
 		int ticks = SDL_GetTicks();
 		delta_time = ticks - prev_ticks;
 
-		const Uint8* key_states = SDL_GetKeyboardState(NULL);
-		if (key_states[SDL_SCANCODE_ESCAPE] || (key_states[SDL_SCANCODE_LALT] || key_states[SDL_SCANCODE_RALT])
-				&& key_states[SDL_SCANCODE_F4])
-		{
-			end = true;
-		}
-		if (key_states[SDL_SCANCODE_A] || key_states[SDL_SCANCODE_LEFT])
-		{
-			screen_b = 0xFF;
-			screen_r = 0x00;
-			screen_g = 0x00;
-		}
-		else if(key_states[SDL_SCANCODE_S] || key_states[SDL_SCANCODE_DOWN])
-		{
-			screen_b = 0x00;
-			screen_r = 0xFF;
-			screen_g = 0x00;
-		}
-		else if(key_states[SDL_SCANCODE_D] || key_states[SDL_SCANCODE_RIGHT])
-		{
-			screen_b = 0xFF;
-			screen_r = 0x00;
-			screen_g = 0xFF;
-		}
-		else if (key_states[SDL_SCANCODE_W] || key_states[SDL_SCANCODE_UP])
-		{
-			screen_b = 0xFF;
-			screen_r = 0xFF;
-			screen_g = 0x00;
-		}
-		else
-		{
-			screen_b = 0xFF;
-			screen_r = 0xFF;
-			screen_g = 0xFF;
-		}
+		// const Uint8* key_states = SDL_GetKeyboardState(NULL);
+		// if (key_states[SDL_SCANCODE_ESCAPE] 
+		// 		|| ((key_states[SDL_SCANCODE_LALT] 
+		// 		|| key_states[SDL_SCANCODE_RALT])
+		// 		&& key_states[SDL_SCANCODE_F4]))
+		// {
+		// 	end = true;
+		// }
+		// if (key_states[SDL_SCANCODE_A] || key_states[SDL_SCANCODE_LEFT])
+		// {
+		// 	screen_b = 0xFF;
+		// 	screen_r = 0x00;
+		// 	screen_g = 0x00;
+		// }
+		// else if(key_states[SDL_SCANCODE_S] || key_states[SDL_SCANCODE_DOWN])
+		// {
+		// 	screen_b = 0x00;
+		// 	screen_r = 0xFF;
+		// 	screen_g = 0x00;
+		// }
+		// else if(key_states[SDL_SCANCODE_D] || key_states[SDL_SCANCODE_RIGHT])
+		// {
+		// 	screen_b = 0xFF;
+		// 	screen_r = 0x00;
+		// 	screen_g = 0xFF;
+		// }
+		// else if (key_states[SDL_SCANCODE_W] || key_states[SDL_SCANCODE_UP])
+		// {
+		// 	screen_b = 0xFF;
+		// 	screen_r = 0xFF;
+		// 	screen_g = 0x00;
+		// }
+		// else
+		// {
+		// 	screen_b = 0xFF;
+		// 	screen_r = 0xFF;
+		// 	screen_g = 0xFF;
+		// }
+
+
+
+
+		Input::callback sr = screen_red;
+		Input::bind_key_hold(SDL_SCANCODE_W, &sr);
+
+		Input::callback esc = escape;
+		Input::bind_key_down
+
+
 
 		prev_ticks = ticks;
 

@@ -2,13 +2,13 @@
 #define CURSOR_HPP_
 
 #include <string>
-#include "geometry.hpp"
+#include "rectd.hpp"
 #include "GameCore.hpp"
 
 class Cursor
 {
 public:
-	Cursor(std::string *image_name, SDL_Rect *src_rect, PointF *dimensions);
+	Cursor(std::string *image_name, SDL_Rect *src_rect, point_d *dimensions);
 	void update(int delta_time);
 	void draw(SDL_Renderer *renderer);
 

@@ -2,12 +2,12 @@
 #define WORLD_HPP_
 
 struct SDL_Renderer;
-struct PointF;
+struct point_d;
 
 namespace World
 {
-	PointF bounds();
-	PointF player_position();
+	point_d bounds();
+	point_d player_position();
 	void update(int delta_time);
 	void draw(SDL_Renderer *renderer);
 }
