@@ -8,7 +8,9 @@
 namespace Input
 {
 	typedef std::function<void (SDL_Event *)> callback;
+
 	void handle_input_event(SDL_Event *event);
+	void update();
 
 	uint32_t bind_key_down(SDL_Scancode key, callback *fn);
 	uint32_t bind_key_hold(SDL_Scancode key, callback *fn);

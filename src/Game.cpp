@@ -16,26 +16,25 @@ void display_fps(point_d *position, int refresh_ms)
 	HUD::add(new FPSDisplay(position, refresh_ms));
 }
 
-
-
 namespace Game
 {
-	namespace
-	{
-		SDL_Renderer *renderer;
-		int screen_width;
-		int screen_height;
+	SDL_Renderer *renderer;
+	int screen_width;
+	int screen_height;
 
-    	int prev_ticks;
-		int delta_time;
+	int prev_ticks;
+	int delta_time;
 
-		Cursor *cursor;
-		bool draw_cursor;
+	Cursor *cursor;
+	bool draw_cursor;
+	bool end;
 
-		int screen_r = 0xFF;
-		int screen_g = 0xFF;
-		int screen_b = 0xFF;
-	}
+	int screen_r = 0xFF;
+	int screen_g = 0xFF;
+	int screen_b = 0xFF;
+
+	Input::callback sr;
+	Input::callback esc;
 
 	void update();
 	void draw();
@@ -43,7 +42,6 @@ namespace Game
 
 	void escape(SDL_Event *event);
 	void screen_red(SDL_Event *event);
-	
 }
 
 
@@ -52,6 +50,11 @@ void Game::screen_red(SDL_Event *event)
 	screen_r = 0xFF;
 	screen_g = 0x00;
 	screen_b = 0x00;
+}
+
+void Game::escape(SDL_Event *event)
+{
+	end = true;
 }
 
 SDL_Renderer *Game::get_renderer()
@@ -75,6 +78,12 @@ bool Game::init(SDL_Renderer* renderer, int screen_height, int screen_width)
 	fps_position.y = screen_height - 20.0f;
 	display_fps(&fps_position, 1000);
 
+	sr = screen_red;
+	Input::bind_key_hold(SDL_SCANCODE_W, &sr);
+
+	esc = escape;
+	Input::bind_key_down(SDL_SCANCODE_ESCAPE, &esc);
+
     return true;
 }
 
@@ -86,7 +95,7 @@ void Game::quit()
 
 void Game::run()
 {
-	bool end = false;
+	end = false;
 	prev_ticks = SDL_GetTicks();
 	SDL_Event event;
 
@@ -100,6 +109,10 @@ void Game::run()
 
 	while (!end)
 	{
+		screen_b = 0xFF;
+		screen_r = 0xFF;
+		screen_g = 0xFF;
+
 		while (SDL_PollEvent(&event) != 0)
 		{
 			if (event.type == SDL_QUIT)
@@ -147,23 +160,6 @@ void Game::run()
 		// 	screen_r = 0xFF;
 		// 	screen_g = 0x00;
 		// }
-		// else
-		// {
-		// 	screen_b = 0xFF;
-		// 	screen_r = 0xFF;
-		// 	screen_g = 0xFF;
-		// }
-
-
-
-
-		Input::callback sr = screen_red;
-		Input::bind_key_hold(SDL_SCANCODE_W, &sr);
-
-		Input::callback esc = escape;
-		Input::bind_key_down
-
-
 
 		prev_ticks = ticks;
 
@@ -175,6 +171,7 @@ void Game::run()
 
 void Game::update()
 {
+	Input::update();
 	HUD::update(delta_time);
 	Timer::update(delta_time);
 
