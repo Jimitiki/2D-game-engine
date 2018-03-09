@@ -92,7 +92,8 @@ Viewport
 	Menus/ui are drawn directly to the viewport
 
 Lights
-??	Entity or other object. Its not really inherently a physical world object, but maybe it could be bound to an entity so that when the entity is destroyed, the light is, too.
+??	Entity or other object. Its not really inherently a physical world object, but maybe it could be bound to an entity so that when the entity is destroyed,
+the light is, too.
 	Several types of light. Do I want to implement all of them?
 	Spot light, point light, ambient light, directional light
 	color, intensity, falloff
@@ -112,7 +113,8 @@ Managers
 		bind, unbind
 		Multiple inputs can be bound to a key, and an input can be bound to multiple keys
 		Binds a function to be called when key/button/action is invoked.
-		Passes a value from -1 to 1. Digital is either 1 or 0, although I might not include 0 at all, unless I can think of a reason to fire an action when the button is released or something
+		Passes a value from -1 to 1. Digital is either 1 or 0, although I might not include 0 at all, 
+				unless I can think of a reason to fire an action when the button is released or something
 	Audio
 		Handles all of the unique audio objects
 	Sprite?
