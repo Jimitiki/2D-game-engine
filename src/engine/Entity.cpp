@@ -1,5 +1,5 @@
 #include "Entity.hpp"
-#include "GameCore.hpp"
+#include "EngineCore.hpp"
 
 void Entity::update(int delta_time)
 {

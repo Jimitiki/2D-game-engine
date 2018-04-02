@@ -1,5 +1,5 @@
 #include "Animation.hpp"
-#include "GameCore.hpp"
+#include "EngineCore.hpp"
 
 Animation::Animation(std::string *image_name, std::vector<SDL_Rect *> *src_rects, SDL_Rect *dest_rect, std::vector<int> *transition_times, int uniform_transition_time) 
 		: Sprite(image_name, src_rects->at(0), dest_rect)
@@ -28,7 +28,7 @@ Animation::~Animation()
 
 void Animation::draw(SDL_Renderer *renderer)
 {
-	transition_timer -= Game::get_delta_time();
+	transition_timer -= Engine::get_delta_time();
 	if (transition_timer <= 0)
 	{
 		cur_rect_index++;

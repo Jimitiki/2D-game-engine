@@ -2,7 +2,7 @@
 #define INPUT_COMPONENT_HPP
 
 #include <vector>
-#include "GameCore.hpp"
+#include "EngineCore.hpp"
 
 class InputComponent
 {

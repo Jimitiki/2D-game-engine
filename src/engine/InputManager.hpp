@@ -2,7 +2,7 @@
 #define INPUT_MANAGER_HPP
 
 #include <functional>
-#include "GameCore.hpp"
+#include "EngineCore.hpp"
 #include "rectd.hpp"
 
 namespace Input

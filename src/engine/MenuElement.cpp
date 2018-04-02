@@ -1,5 +1,5 @@
 #include "MenuElement.hpp"
-#include "GameCore.hpp"
+#include "EngineCore.hpp"
 #include "Sprite.hpp"
 
 MenuElement::MenuElement(SDL_Rect *rect, std::string *image_file)

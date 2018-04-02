@@ -1,5 +1,5 @@
 #include "HUDElement.hpp"
-#include "GameCore.hpp"
+#include "EngineCore.hpp"
 
 HUDElement::HUDElement(point_d *position)
 {

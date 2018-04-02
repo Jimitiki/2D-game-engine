@@ -1,5 +1,5 @@
-#include "GameCore.hpp"
-#include "Game.hpp"
+#include "EngineCore.hpp"
+#include "Engine.hpp"
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -20,9 +20,9 @@ int main(int argc, char *args[])
 	if (init(&window, &renderer, &screen_height, &screen_width))
 	{
 		SDL_ShowCursor(SDL_DISABLE);
-		if (Game::init(renderer, screen_height, screen_width))
+		if (Engine::init(renderer, screen_height, screen_width))
 		{
-			Game::run();
+			Engine::run();
 		}
 	}
 	close(&window, &renderer);

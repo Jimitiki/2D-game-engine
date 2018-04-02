@@ -1,7 +1,7 @@
 #include <exception>
 
 #include "Sprite.hpp"
-#include "GameCore.hpp"
+#include "EngineCore.hpp"
 #include "AssetManager.hpp"
 
 Sprite::Sprite(std::string *image_name, SDL_Rect *src_rect, SDL_Rect *dest_rect)
@@ -19,7 +19,7 @@ Sprite::Sprite(std::string *image_name, SDL_Rect *src_rect, SDL_Rect *dest_rect)
 	SDL_Surface *surface;
 	Asset::image(image_name, &surface);
 
-	texture = SDL_CreateTextureFromSurface(Game::get_renderer(), surface);
+	texture = SDL_CreateTextureFromSurface(Engine::get_renderer(), surface);
 	if (texture == nullptr)
 	{
 		print_sdl_error();

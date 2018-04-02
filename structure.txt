@@ -1,12 +1,12 @@
 Engine Structure
 
-Game
+Engine
 	Entrypoint for engine
 	initializes window/everything
 	loads +Levels, tracks cached game objects
 	handles input
 	maintains the +World
-??	(+Viewport in +Game or in +World? Right now, I'm leaning towards +World)
+??	(+Viewport in +Engine or in +World? Right now, I'm leaning towards +World)
 	update
 	draw
 	handles +Menus/pause

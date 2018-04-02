@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "GameCore.hpp"
+#include "EngineCore.hpp"
 #include "HUDElement.hpp"
 #include "rectd.hpp"
 

@@ -18,11 +18,8 @@ def get_objects(dir, objs):
 			header = obj + ".hpp"
 			obj = obj + ".o"
 			objs[obj] = set()
-			print(obj)
 			get_dependencies(file_name=src, dir_path="../src/" + dir + "/", dependency_set=objs[obj])
 			get_dependencies(file_name=header, dir_path="../src/" + dir + "/", dependency_set=objs[obj])
-			for dep in objs[obj]:
-				print("\t" + dep)
 
 
 makef = open(file="Makefile", mode="w")

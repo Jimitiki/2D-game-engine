@@ -1,7 +1,7 @@
 #ifndef GRAPHICSCOMPONENT_HPP
 #define GRAPHICSCOMPONENT_HPP
 
-#include "GameCore.hpp"
+#include "EngineCore.hpp"
 #include "Sprite.hpp"
 #include "rectd.hpp"
 

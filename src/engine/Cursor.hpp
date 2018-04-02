@@ -3,7 +3,7 @@
 
 #include <string>
 #include "rectd.hpp"
-#include "GameCore.hpp"
+#include "EngineCore.hpp"
 
 class Cursor
 {
@@ -18,7 +18,7 @@ private:
 	SDL_Rect *dest_rect = nullptr;
 };
 
-namespace Game
+namespace Engine
 {
 	void set_cursor(Cursor *cursor);
 	void disable_cursor();

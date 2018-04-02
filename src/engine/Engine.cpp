@@ -1,8 +1,8 @@
-#include "Game.hpp"
+#include "Engine.hpp"
 #include <cstring>
 #include <sstream>
 
-#include "GameCore.hpp"
+#include "EngineCore.hpp"
 #include "FPSDisplay.hpp"
 #include "AssetManager.hpp"
 #include "HUDManager.hpp"
@@ -16,7 +16,7 @@ void display_fps(point_d *position, int refresh_ms)
 	HUD::add(new FPSDisplay(position, refresh_ms));
 }
 
-namespace Game
+namespace Engine
 {
 	SDL_Renderer *renderer;
 	int screen_width;
@@ -45,33 +45,33 @@ namespace Game
 }
 
 
-void Game::screen_red(SDL_Event *event)
+void Engine::screen_red(SDL_Event *event)
 {
 	screen_r = 0xFF;
 	screen_g = 0x00;
 	screen_b = 0x00;
 }
 
-void Game::escape(SDL_Event *event)
+void Engine::escape(SDL_Event *event)
 {
 	end = true;
 }
 
-SDL_Renderer *Game::get_renderer()
+SDL_Renderer *Engine::get_renderer()
 {
-	return Game::renderer;
+	return Engine::renderer;
 }
 
-int Game::get_delta_time()
+int Engine::get_delta_time()
 {
 	return delta_time;
 }
 
-bool Game::init(SDL_Renderer* renderer, int screen_height, int screen_width)
+bool Engine::init(SDL_Renderer* renderer, int screen_height, int screen_width)
 {
-	Game::renderer = renderer;
-	Game::screen_width = screen_width;
-	Game::screen_height = screen_height;
+	Engine::renderer = renderer;
+	Engine::screen_width = screen_width;
+	Engine::screen_height = screen_height;
 	point_d fps_position = {0.0f, 0.0f};
 	display_fps(&fps_position, 600);
 	fps_position.x = screen_width - 57.0f;
@@ -87,13 +87,13 @@ bool Game::init(SDL_Renderer* renderer, int screen_height, int screen_width)
     return true;
 }
 
-void Game::quit()
+void Engine::quit()
 {
 	HUD::destroy();
 	Asset::unload_all();
 }
 
-void Game::run()
+void Engine::run()
 {
 	end = false;
 	prev_ticks = SDL_GetTicks();
@@ -169,7 +169,7 @@ void Game::run()
 	quit();
 }
 
-void Game::update()
+void Engine::update()
 {
 	Input::update();
 	HUD::update(delta_time);
@@ -181,7 +181,7 @@ void Game::update()
 	}
 }
 
-void Game::draw()
+void Engine::draw()
 {
 	SDL_SetRenderDrawColor(renderer, screen_r, screen_g, screen_b, 0xFF);
 	SDL_RenderClear(renderer);
@@ -195,22 +195,22 @@ void Game::draw()
 	SDL_RenderPresent(renderer);
 }
 
-void Game::set_cursor(Cursor *cursor)
+void Engine::set_cursor(Cursor *cursor)
 {
-	Game::cursor = cursor;
+	Engine::cursor = cursor;
 }
 
-void Game::disable_cursor()
+void Engine::disable_cursor()
 {
 	draw_cursor = false;
 }
 
-void Game::enable_cursor()
+void Engine::enable_cursor()
 {
 	draw_cursor = true;
 }
 
-bool Game::is_cursor_enabled()
+bool Engine::is_cursor_enabled()
 {
 	return draw_cursor;
 }

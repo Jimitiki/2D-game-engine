@@ -15,7 +15,7 @@
 
 #include <exception>
 
-namespace Game
+namespace Engine
 {
 	SDL_Renderer *get_renderer();
 	int get_delta_time();

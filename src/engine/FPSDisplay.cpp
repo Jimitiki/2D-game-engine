@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "FPSDisplay.hpp"
-#include "GameCore.hpp"
+#include "EngineCore.hpp"
 #include "AssetManager.hpp"
 #include "Animation.hpp"
 
