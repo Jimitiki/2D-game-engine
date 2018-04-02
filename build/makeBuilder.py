@@ -24,7 +24,7 @@ def get_objects(dir, objs):
 
 makef = open(file="Makefile", mode="w")
 
-makef.write("C = g++ -std=c++11\nCFLAGS = -Wall\nLFLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf\n\nTARGET = JAM\n\n")
+makef.write("C = g++ -std=c++11\nCFLAGS = -Wall\nLFLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf\n\nTARGET = ../bin/JAM\n\n")
 
 objs = {}
 os.chdir("../src")

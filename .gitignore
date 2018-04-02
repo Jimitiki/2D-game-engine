@@ -1,5 +1,5 @@
 .vscode/settings.json
 *.o
 *.gch
-build/JAM
-build/Makefile
+*JAM
+*Makefile
