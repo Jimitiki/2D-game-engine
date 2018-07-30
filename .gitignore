@@ -3,3 +3,9 @@
 *.gch
 *JAM
 *Makefile
+*.dll
+*.sln
+*.vcxproj*
+Debug/
+
+\.vs/
