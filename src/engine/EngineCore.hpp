@@ -1,5 +1,5 @@
-#ifndef SDLCORE_H_
-#define SDLCORE_H_
+#ifndef ENGINECORE_H_
+#define ENGINECORE_H_
 
 #ifdef __linux__
 #include <SDL2/SDL.h>
