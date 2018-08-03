@@ -1,5 +1,5 @@
 #include "EngineCore.hpp"
-#include "Engine.hpp"
+/*#include "Engine.hpp"*/
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -19,12 +19,13 @@ int main(int argc, char *args[])
 
 	if (init(&window, &renderer, &screen_height, &screen_width))
 	{
-		SDL_ShowCursor(SDL_DISABLE);
-		if (Engine::init(renderer, screen_height, screen_width))
+		//SDL_ShowCursor(SDL_DISABLE);
+		/*if (Engine::init(renderer, screen_height, screen_width))
 		{
 			Engine::run();
-		}
+		}*/
 	}
+	while (true);
 	close(&window, &renderer);
 
 	return 0;
@@ -44,7 +45,6 @@ bool init(SDL_Window **window, SDL_Renderer **renderer, int *screen_height, int 
 		print_img_error();
 		return false;
 	}
-
 	if (TTF_Init() == -1)
 	{
 		print_ttf_error();
@@ -99,6 +99,7 @@ void close(SDL_Window **window, SDL_Renderer **renderer)
 {
 	SDL_DestroyWindow(*window);
 	SDL_DestroyRenderer(*renderer);
-	TTF_Quit();
+	//TTF_Quit();
+	IMG_Quit();
 	SDL_Quit();
 }
