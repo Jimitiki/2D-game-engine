@@ -25,7 +25,7 @@ class at_capacity : public std::exception
 {
 	const char *what() const throw()
 	{
-		return "The capacity of this data structure has already been reacehed.";
+		return "The capacity of this data structure has already been reached.";
 	} 
 };
 
