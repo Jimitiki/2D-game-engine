@@ -11,7 +11,7 @@
 #include "rectd.hpp"
 #include "InputManager.hpp"
 
-void display_fps(point_d *position, int refresh_ms)
+void display_fps(PointD *position, int refresh_ms)
 {
 	HUD::add(new FPSDisplay(position, refresh_ms));
 }
@@ -72,7 +72,7 @@ bool Engine::init(SDL_Renderer* renderer, int screen_height, int screen_width)
 	Engine::renderer = renderer;
 	Engine::screen_width = screen_width;
 	Engine::screen_height = screen_height;
-	point_d fps_position = {0.0f, 0.0f};
+	PointD fps_position = {0.0f, 0.0f};
 	display_fps(&fps_position, 600);
 	fps_position.x = screen_width - 57.0f;
 	fps_position.y = screen_height - 20.0f;
@@ -99,10 +99,10 @@ void Engine::run()
 	prev_ticks = SDL_GetTicks();
 	SDL_Event event;
 
-	point_d fps_position = {57.0f, 20.0f};
+	PointD fps_position = {57.0f, 20.0f};
 	Timer::bind(std::bind(display_fps, &fps_position, 1380), 2000);
 
-	point_d cursor_size = {14.0f, 20.0f};
+	PointD cursor_size = {14.0f, 20.0f};
 	std::string cursor_image = "cursor.png";
 	cursor = new Cursor(&cursor_image, nullptr, &cursor_size);
 	enable_cursor();
@@ -128,7 +128,7 @@ void Engine::run()
 		int ticks = SDL_GetTicks();
 		delta_time = ticks - prev_ticks;
 
-		// const Uint8* key_states = SDL_GetKeyboardState(nullptr);
+		// const Uint8* key_states = SDL_GetKeyboardState(NULL);
 		// if (key_states[SDL_SCANCODE_ESCAPE] 
 		// 		|| ((key_states[SDL_SCANCODE_LALT] 
 		// 		|| key_states[SDL_SCANCODE_RALT])

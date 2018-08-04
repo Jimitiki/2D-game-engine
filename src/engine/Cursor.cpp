@@ -3,7 +3,7 @@
 #include "EngineCore.hpp"
 #include "AssetManager.hpp"
 
-Cursor::Cursor(std::string *image_name, SDL_Rect *src_rect, point_d *dimensions)
+Cursor::Cursor(std::string *image_name, SDL_Rect *src_rect, PointD *dimensions)
 {
 	dest_rect = new SDL_Rect;
 	if (src_rect != nullptr)

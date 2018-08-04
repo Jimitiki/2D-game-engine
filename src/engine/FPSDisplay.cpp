@@ -6,13 +6,14 @@
 #include "AssetManager.hpp"
 #include "Animation.hpp"
 
-FPSDisplay::FPSDisplay(point_d *position, int update_time) : HUDElement(position)
+FPSDisplay::FPSDisplay(PointD *position, int update_time) : HUDElement(position)
 {
 	this->update_time = update_time;
 	Asset::font(&FONT_NAME, FONT_SIZE, &font);
-	std::vector<SDL_Rect *> *rects = new std::vector<SDL_Rect *>();
+	std::vector<Frame *> *frames = new std::vector<Frame *>();
 	for (int i = 0; i < 7; i++)
 	{
+		Frame *frame = new Frame;
 		SDL_Rect *src_rect = new SDL_Rect;
 		src_rect->h = 20;
 		src_rect->w = 56;
@@ -25,7 +26,9 @@ FPSDisplay::FPSDisplay(point_d *position, int update_time) : HUDElement(position
 			src_rect->x = (6 - i) * 57;
 		}
 		src_rect->y = 0;
-		rects->push_back(src_rect);
+		frame->src_rect = src_rect;
+		frame->duration = 200;
+		frames->push_back(frame);
 	}
 	SDL_Rect *sprite_rect = new SDL_Rect;
 	sprite_rect->h = 20;
@@ -33,7 +36,7 @@ FPSDisplay::FPSDisplay(point_d *position, int update_time) : HUDElement(position
 	sprite_rect->x = position->x;
 	sprite_rect->y = position->y;
 	std::string sprite_image = "fpsbackground_anim.png";
-	background = new Animation(&sprite_image, rects, sprite_rect, nullptr, 200);
+	background = new Animation(&sprite_image, frames, sprite_rect);
 	//background = new Sprite(&sprite_image, rects->at(2), sprite_rect);
 }
 

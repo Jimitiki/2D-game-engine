@@ -14,7 +14,7 @@ class Entity
 		void draw(SDL_Renderer *renderer);
 
 	private:
-		point_d position;
+		PointD position;
 		std::vector <Sprite *> sprites;
 };
 

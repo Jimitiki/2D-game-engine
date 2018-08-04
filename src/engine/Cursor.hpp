@@ -8,7 +8,7 @@
 class Cursor
 {
 public:
-	Cursor(std::string *image_name, SDL_Rect *src_rect, point_d *dimensions);
+	Cursor(std::string *image_name, SDL_Rect *src_rect, PointD *dimensions);
 	void update(int delta_time);
 	void draw(SDL_Renderer *renderer);
 

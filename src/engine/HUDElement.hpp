@@ -9,7 +9,7 @@ struct SDL_Renderer;
 class HUDElement
 {
 	public:
-		HUDElement(point_d *position);
+		HUDElement(PointD *position);
 		virtual ~HUDElement();
 		virtual void draw(SDL_Renderer *renderer) = 0;
 		virtual void update(int delta_time) = 0;
