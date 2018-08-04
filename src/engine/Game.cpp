@@ -3,19 +3,6 @@
 #include "EngineCore.hpp"
 #include "Engine.hpp"
 
-int main(int argc, char *args[])
-{
-	Game game;
-
-	if (game.init_window())
-	{
-		game.start_game();
-	}
-	game.close_window();
-
-	return 0;
-}
-
 Game::Game()
 {
 	renderer = nullptr;
@@ -90,7 +77,6 @@ bool Game::init_window()
 
 bool Game::start_game()
 {
-	SDL_ShowCursor(SDL_DISABLE);
 	if (Engine::init(renderer, screen_height, screen_width))
 	{
 		Engine::run();

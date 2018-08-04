@@ -7,9 +7,9 @@ class Game
 {
 public:
 	Game();
-	bool init_window();
-	bool start_game();
-	void close_window();
+	virtual bool init_window();
+	virtual bool start_game();
+	virtual void close_window();
 
 private:
 	SDL_Renderer *renderer;
