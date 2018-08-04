@@ -1,5 +1,5 @@
-#ifndef GAME_HPP_
-#define GAME_HPP_
+#ifndef ENGINE_HPP_
+#define ENGINE_HPP_
 
 #include <string>
 

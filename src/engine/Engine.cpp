@@ -128,7 +128,7 @@ void Engine::run()
 		int ticks = SDL_GetTicks();
 		delta_time = ticks - prev_ticks;
 
-		// const Uint8* key_states = SDL_GetKeyboardState(NULL);
+		// const Uint8* key_states = SDL_GetKeyboardState(nullptr);
 		// if (key_states[SDL_SCANCODE_ESCAPE] 
 		// 		|| ((key_states[SDL_SCANCODE_LALT] 
 		// 		|| key_states[SDL_SCANCODE_RALT])
