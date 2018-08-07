@@ -1,143 +1,27 @@
-Engine Structure
-
-Engine
-	Entrypoint for engine
-	initializes window/everything
-	loads +Levels, tracks cached game objects
-	handles input
-	maintains the +World
-??	(+Viewport in +Engine or in +World? Right now, I'm leaning towards +World)
-	update
-	draw
-	handles +Menus/pause
-
-	I think I'll probably need some global managers or whatever
-		Input - bind, fire
-		Menu - open menu, transition to other menus, resume play
-		UI - display HUD
-		Cache - keeps track (copies) of loaded files and stuff, load file, cache size?
-
-Level
-	defines a +World for the game to use
-	has a background (tiles?), bounds
-	contains position data (& other data) about +WorldObjects
-	defines how viewport tracks (or doesn't) player
-??	how to handle scripting and stuff?
-	tracks success/fail conditions, tranisition to other levels
-??	should it use a file? dynamically created levels?
-
-World
-	all +WorldObjects/+Controllers in current play
-	updates/draws its objects
-	handles cleanup of unneeded objects
-	maintains all current possible transitions probably
-
-WorldObject (Entity? "Object that exists" I kinda like it, but its pretty vague...)
-	Anything that is manifested visually in the world
-	position, velocity/movement/rotation, +Sprite, +WorldObjectState
-	extend to add:
-		+Controller (+Controllable)
-		--NOT YET-- flying/combat inputs (+Ship)
-		damage, health, lots of stuff --YES--
-?? 			maybe every object is destructible, has potential to deal damage, etc.
+Components - glorified data stores
+	Enum to identify components:
+		0x00: graphics
+		0x01: movement
+		0x02: physics
+		0x04: puppeteer
+		0x08: health
+		0x10: state component?
+		etc.
+		If the bit of the Entity ID is set, then it has the component 
+	Input component - tracks inputs (keys/buttons/mouse), mapped to "controls"
+	Control component - maps "controls" (jump/turn/shoot/whatever) to functions
 	
-	Controllable (Puppet?)
-		Anything that has a controller (whether AI or player)
-		has input functions that Controller can call/use for whatever
-
-WorldObjectState
-	Tracks state information of a WorldObject
-	WorldObjects can have multiple states
-	Affects anything about a character probably
-	Good for blocking input, changing sprite to reflect internal state, tracking interactibility, etc.
-
-Controller
-	something that controls a +Controllable
-??	Should +Controllable get input from its +Controller, or vice-versa?
-	+PlayerController & +AIControllers
+	Systems grap components and use their data to make changes to entity/other components
+	It can change the other components by accessing them with entity::get_component(componentID)
+	Essentially, an entity gets either 0 or 1 of any component type. So, the control system can say, 
+	"hey, I need to update the movement component to change the velocity", and it gets to do that.
 	
-	PlayerController
-		receives user input
-		inputs are bound to PlayerController functions
-
-	AIController
-		programatically determines which inputs to provide to its Controllable
-
-Sprite
-	visual representation of a WorldObject
-	image file, location on image file, dimensions
-	affected by state
-	extended by +Animation
-	no/empty update function
-
-	Animation
-		uses an animation file
-			-references image, update times (timer), dimensions, all of that stuff
-		updates sprite data periodically
-		does use update function
-??		affected by object state somehow?
-
-Hitbox
-	position, height, width, rotation
-	Functions exist to check for overlap.
-
-Viewport
-	captures a section of the world to display on the screen
-??	Should it be anchored to "cameras"?
-	options
-		match screen resolution?
-		match screen aspect ratio?
-		Mutliple cameras
-	Yeah, I think binding a viewport to a camera makes sense, and then move the camera through the world
-	Menus/ui are drawn directly to the viewport
-
-Lights
-??	Entity or other object. Its not really inherently a physical world object, but maybe it could be bound to an entity so that when the entity is destroyed,
-the light is, too.
-	Several types of light. Do I want to implement all of them?
-	Spot light, point light, ambient light, directional light
-	color, intensity, falloff
-	spot light also has angles and stuff
-
-Audio
-	Two types - single & looping
-	Audio can be limited to a time length, or let it run its course
-	Looping audio also has a loop limit, or it can run indefinitely
-	load, create (?), run, setLimit, end, unload
-
-
-
-Managers
-	Load, unload, create, destroy, fire, end
-	Input
-		bind, unbind
-		Multiple inputs can be bound to a key, and an input can be bound to multiple keys
-		Binds a function to be called when key/button/action is invoked.
-		Passes a value from -1 to 1. Digital is either 1 or 0, although I might not include 0 at all, 
-				unless I can think of a reason to fire an action when the button is released or something
-	Audio
-		Handles all of the unique audio objects
-	Sprite?
-		Handles all of the unique sprites/animations
-	World?
-		Handles (possible every instance?) world objects, lights, etc.
-	Level?
-		Loads, unloads, links levels
-	Menu
-		Handles Menu interaction, linking other menus, linking other levels, etc
-	HUD
-		Handles on-screen heads-up display information
-		Displays HUD on the screen
-		I could probably combine this with the Menu manager to create an interface to draw images and text on the screen
-		draws sprites/text to a static position on the screen
-	Viewport/Cameras?
-		Might not be nevessary, but something to handle viewport movement/camera switching could be nice...
-
-
-
-
-Components
-	Graphics Component
-	Collision Component
-	Text Component?
-	Input Component
+	THen maybe withing each component type there's an ID pattern so the component system can determine
+	what behavior it gets? Or the components are really classes and can determine their own behavior
+	e.g. SuperHardBossAIComponent vs. PatheticMookComponent. This approach does leverage polymorphism, after all.
+	And then instead of generic "update()" or "draw()" methods, I could have "get_action()" functions for AI, or
+	"calculate_position" for movement
+	
+	IMPORTANT: There is not a 1:1 component-type-to-system mapping. So their is no "position" system, the movement
+	system handles updating that together with the movement component. THen, the physics system can update the movement
+	component, and so forth.
