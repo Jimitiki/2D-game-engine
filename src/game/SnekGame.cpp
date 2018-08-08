@@ -1,8 +1,8 @@
-#include "PawngGame.hpp"
+#include "SnekGame.hpp"
 
 int main(int argc, char *args[])
 {
-	PawngGame game;
+	SnekGame game;
 
 	if (game.init_window())
 	{
@@ -17,7 +17,7 @@ int main(int argc, char *args[])
 	return 0;
 }
 
-bool PawngGame::start_game()
+bool SnekGame::start_game()
 {
 	SDL_ShowCursor(SDL_DISABLE);
 	return Game::start_game();
