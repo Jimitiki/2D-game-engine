@@ -1,7 +1,7 @@
 #ifndef STAGE_HPP_
 #define STAGE_HPP_
 
-struct SDL_Renderer;
+#include "EngineCore.hpp"
 #include "RectD.hpp"
 
 namespace Stage

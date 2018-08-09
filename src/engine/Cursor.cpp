@@ -1,5 +1,4 @@
 #include "Cursor.hpp"
-#include "EngineCore.hpp"
 
 #include "AssetManager.hpp"
 
