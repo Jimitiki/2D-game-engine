@@ -3,7 +3,6 @@
 #include <sstream>
 
 #include "EngineCore.hpp"
-#include "FPSDisplay.hpp"
 #include "AssetManager.hpp"
 #include "HUDManager.hpp"
 #include "Timer.hpp"
@@ -11,10 +10,6 @@
 #include "RectD.hpp"
 #include "InputManager.hpp"
 
-void display_fps(PointD *position, int refresh_ms)
-{
-	HUD::add(new FPSDisplay(position, refresh_ms));
-}
 
 namespace Engine
 {
@@ -72,11 +67,6 @@ bool Engine::init(SDL_Renderer* renderer, int screen_height, int screen_width)
 	Engine::renderer = renderer;
 	Engine::screen_width = screen_width;
 	Engine::screen_height = screen_height;
-	PointD fps_position = {0.0f, 0.0f};
-	display_fps(&fps_position, 600);
-	fps_position.x = screen_width - 57.0f;
-	fps_position.y = screen_height - 20.0f;
-	display_fps(&fps_position, 1000);
 
 	sr = screen_red;
 	Input::bind_key_hold(SDL_SCANCODE_W, &sr);
@@ -98,9 +88,6 @@ void Engine::run()
 	end = false;
 	prev_ticks = SDL_GetTicks();
 	SDL_Event event;
-
-	PointD fps_position = {57.0f, 20.0f};
-	Timer::bind(std::bind(display_fps, &fps_position, 1380), 2000);
 
 	PointD cursor_size = {14.0f, 20.0f};
 	std::string cursor_image = "cursor.png";
