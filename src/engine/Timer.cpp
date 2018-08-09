@@ -2,33 +2,33 @@
 #include <queue>
 #include "Timer.hpp"
 
-typedef struct
-{
-	std::function <void()> callback_fn;
-	int delay;
-	int interval;
-	int call_timer;
-} timer_callback;
-
 namespace Timer
 {
+	typedef struct
+	{
+		Callback callback;
+		int delay;
+		int interval;
+		int call_timer;
+	} Timer;
+
 	namespace
 	{
-		std::vector<timer_callback *> callbacks;
+		std::vector<Timer *> callbacks;
 		std::queue<int> unbound_slots;
 	}
 }
 
-int Timer::bind(std::function <void()> callback_fn, int delay)
+Timer::CallbackID Timer::bind(Callback *callback_fn, int delay)
 {
 	return bind(callback_fn, delay, -1);
 }
 
 
-int Timer::bind(std::function <void()> callback_fn, int delay, int interval)
+Timer::CallbackID Timer::bind(Callback *callback_fn, int delay, int interval)
 {
-	timer_callback *callback = new timer_callback;
-	callback->callback_fn = callback_fn;
+	Timer *callback = new Timer;
+	callback->callback = *callback_fn;
 	callback->delay = delay;
 	callback->interval = -1;
 	callback->call_timer = delay;
@@ -43,7 +43,7 @@ int Timer::bind(std::function <void()> callback_fn, int delay, int interval)
 	return timer_id;
 }
 
-void Timer::unbind(int timer_id)
+void Timer::unbind(CallbackID timer_id)
 {
 	delete callbacks[timer_id];
 	callbacks[timer_id] = nullptr;
@@ -64,7 +64,7 @@ void Timer::update(int delta_time)
 		{
 			continue;
 		}
-		callbacks[i]->callback_fn ();
+		callbacks[i]->callback();
 		if (callbacks[i]->interval > 0)
 		{
 			callbacks[i]->call_timer += callbacks[i]->interval;
