@@ -29,7 +29,7 @@ namespace Engine
 	int screen_b = 0xFF;
 
 	Input::callback sr;
-	Input::callback esc;
+	Input::Callback esc;
 
 	void update();
 	void draw();

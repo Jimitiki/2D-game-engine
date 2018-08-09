@@ -5,23 +5,27 @@
 #include "EngineCore.hpp"
 #include "RectD.hpp"
 
+
 namespace Input
 {
-	typedef std::function<void (SDL_Event *)> callback;
+	typedef std::function<void (SDL_Event *)> Callback;
+	typedef uint32_t CallbackID;
 
 	void handle_input_event(SDL_Event *event);
 	void update();
 
-	uint32_t bind_key_down(SDL_Scancode key, callback *fn);
-	uint32_t bind_key_hold(SDL_Scancode key, callback *fn);
-	uint32_t bind_key_up(SDL_Scancode key, callback *fn);
+	//keyboard input callbacks
+	CallbackID bind_key_down(SDL_Scancode key, Callback *callback_fn);
+	CallbackID bind_key_hold(SDL_Scancode key, Callback *callback_fn);
+	CallbackID bind_key_up(SDL_Scancode key, Callback *callback_fn);
 
-	uint32_t bind_mouse_move(callback *fn);
-	uint32_t bind_mouse_button_down(uint8_t button, callback *fn);
-	uint32_t bind_mouse_button_hold(uint8_t button, callback *fn);
-	uint32_t bind_mouse_button_up(uint8_t button, callback *fn);
+	//mouse input callbacks
+	CallbackID bind_mouse_move(Callback *callback_fn);
+	CallbackID bind_button_down(uint8_t button, Callback *callback_fn);
+	CallbackID bind_button_hold(uint8_t button, Callback *callback_fn);
+	CallbackID bind_button_up(uint8_t button, Callback *callback_fn);
 
-	callback *unbind(uint32_t id);
+	Callback *unbind(CallbackID id);
 }
 
 #endif
