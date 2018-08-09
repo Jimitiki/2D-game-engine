@@ -2,7 +2,8 @@
 #define ENTITY_HPP_
 
 #include <vector>
-#include "rectd.hpp"
+
+#include "RectD.hpp"
 
 struct SDL_Renderer;
 class Sprite;

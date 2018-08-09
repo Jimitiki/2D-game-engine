@@ -8,7 +8,7 @@
 #include "HUDManager.hpp"
 #include "Timer.hpp"
 #include "Cursor.hpp"
-#include "rectd.hpp"
+#include "RectD.hpp"
 #include "InputManager.hpp"
 
 void display_fps(PointD *position, int refresh_ms)

@@ -1,10 +1,9 @@
 #ifndef HUDELEMENT_HPP_
 #define HUDELEMENT_HPP_
 
-#include "rectd.hpp"
-
 struct SDL_Rect;
 struct SDL_Renderer;
+#include "RectD.hpp"
 
 class HUDElement
 {

@@ -2,7 +2,7 @@
 #define STAGE_HPP_
 
 struct SDL_Renderer;
-struct PointD;
+#include "RectD.hpp"
 
 namespace Stage
 {

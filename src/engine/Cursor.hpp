@@ -2,7 +2,8 @@
 #define CURSOR_HPP_
 
 #include <string>
-#include "rectd.hpp"
+
+#include "RectD.hpp"
 #include "EngineCore.hpp"
 
 class Cursor

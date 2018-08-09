@@ -3,7 +3,7 @@
 
 #include "EngineCore.hpp"
 #include "Sprite.hpp"
-#include "rectd.hpp"
+#include "RectD.hpp"
 
 class GraphicsComponent
 {
