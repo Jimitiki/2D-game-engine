@@ -2,9 +2,8 @@
 #include <vector>
 
 #include "FPSDisplay.hpp"
-#include "EngineCore.hpp"
-#include "AssetManager.hpp"
-#include "Animation.hpp"
+#include "../engine/AssetManager.hpp"
+#include "../engine/Animation.hpp"
 
 FPSDisplay::FPSDisplay(PointD *position, int update_time) : HUDElement(position)
 {

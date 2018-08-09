@@ -3,9 +3,9 @@
 
 #include <string>
 
-#include "EngineCore.hpp"
-#include "HUDElement.hpp"
-#include "rectd.hpp"
+#include "../engine/EngineCore.hpp"
+#include "../engine/HUDElement.hpp"
+#include "../engine/RectD.hpp"
 
 class Sprite;
 
