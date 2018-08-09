@@ -68,9 +68,6 @@ bool Engine::init(SDL_Renderer* renderer, int screen_height, int screen_width)
 	Engine::screen_width = screen_width;
 	Engine::screen_height = screen_height;
 
-	sr = screen_red;
-	Input::bind_key_hold(SDL_SCANCODE_W, &sr);
-
 	esc = escape;
 	Input::bind_key_down(SDL_SCANCODE_ESCAPE, &esc);
 
@@ -96,10 +93,6 @@ void Engine::run()
 
 	while (!end)
 	{
-		screen_b = 0xFF;
-		screen_r = 0xFF;
-		screen_g = 0xFF;
-
 		while (SDL_PollEvent(&event) != 0)
 		{
 			if (event.type == SDL_QUIT)
@@ -114,39 +107,6 @@ void Engine::run()
 
 		int ticks = SDL_GetTicks();
 		delta_time = ticks - prev_ticks;
-
-		// const Uint8* key_states = SDL_GetKeyboardState(NULL);
-		// if (key_states[SDL_SCANCODE_ESCAPE] 
-		// 		|| ((key_states[SDL_SCANCODE_LALT] 
-		// 		|| key_states[SDL_SCANCODE_RALT])
-		// 		&& key_states[SDL_SCANCODE_F4]))
-		// {
-		// 	end = true;
-		// }
-		// if (key_states[SDL_SCANCODE_A] || key_states[SDL_SCANCODE_LEFT])
-		// {
-		// 	screen_b = 0xFF;
-		// 	screen_r = 0x00;
-		// 	screen_g = 0x00;
-		// }
-		// else if(key_states[SDL_SCANCODE_S] || key_states[SDL_SCANCODE_DOWN])
-		// {
-		// 	screen_b = 0x00;
-		// 	screen_r = 0xFF;
-		// 	screen_g = 0x00;
-		// }
-		// else if(key_states[SDL_SCANCODE_D] || key_states[SDL_SCANCODE_RIGHT])
-		// {
-		// 	screen_b = 0xFF;
-		// 	screen_r = 0x00;
-		// 	screen_g = 0xFF;
-		// }
-		// else if (key_states[SDL_SCANCODE_W] || key_states[SDL_SCANCODE_UP])
-		// {
-		// 	screen_b = 0xFF;
-		// 	screen_r = 0xFF;
-		// 	screen_g = 0x00;
-		// }
 
 		prev_ticks = ticks;
 
@@ -170,7 +130,7 @@ void Engine::update()
 
 void Engine::draw()
 {
-	SDL_SetRenderDrawColor(renderer, screen_r, screen_g, screen_b, 0xFF);
+	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(renderer);
 	HUD::draw(renderer);
 	if (draw_cursor && cursor != nullptr)
