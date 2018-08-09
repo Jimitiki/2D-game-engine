@@ -24,11 +24,6 @@ namespace Engine
 	bool draw_cursor;
 	bool end;
 
-	int screen_r = 0xFF;
-	int screen_g = 0xFF;
-	int screen_b = 0xFF;
-
-	Input::callback sr;
 	Input::Callback esc;
 
 	void update();
@@ -36,15 +31,6 @@ namespace Engine
 	void quit();
 
 	void escape(SDL_Event *event);
-	void screen_red(SDL_Event *event);
-}
-
-
-void Engine::screen_red(SDL_Event *event)
-{
-	screen_r = 0xFF;
-	screen_g = 0x00;
-	screen_b = 0x00;
 }
 
 void Engine::escape(SDL_Event *event)
