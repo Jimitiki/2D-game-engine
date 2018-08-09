@@ -2,13 +2,14 @@
 #define GAME_HPP_
 
 #include "EngineCore.hpp"
+#include "IScene.hpp"
 
 class Game
 {
 public:
 	Game();
 	virtual bool init_window();
-	virtual bool start_game();
+	virtual bool start_game(IScene *scene);
 	virtual void close_window();
 
 private:

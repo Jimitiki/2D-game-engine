@@ -75,11 +75,11 @@ bool Game::init_window()
 	return true;
 }
 
-bool Game::start_game()
+bool Game::start_game(IScene *scene)
 {
 	if (Engine::init(renderer, screen_height, screen_width))
 	{
-		Engine::run();
+		Engine::run(scene);
 	}
 	else
 	{

@@ -9,6 +9,7 @@
 #include "Cursor.hpp"
 #include "RectD.hpp"
 #include "InputManager.hpp"
+#include "Stage.hpp"
 
 
 namespace Engine
@@ -48,6 +49,16 @@ int Engine::get_delta_time()
 	return delta_time;
 }
 
+int Engine::get_screen_height()
+{
+	return screen_height;
+}
+
+int Engine::get_screen_width()
+{
+	return screen_width;
+}
+
 bool Engine::init(SDL_Renderer* renderer, int screen_height, int screen_width)
 {
 	Engine::renderer = renderer;
@@ -66,12 +77,13 @@ void Engine::quit()
 	Asset::unload_all();
 }
 
-void Engine::run()
+void Engine::run(IScene *scene)
 {
 	end = false;
 	prev_ticks = SDL_GetTicks();
 	SDL_Event event;
 
+	Stage::play_scene(scene);
 	PointD cursor_size = {14.0f, 20.0f};
 	std::string cursor_image = "cursor.png";
 	cursor = new Cursor(&cursor_image, nullptr, &cursor_size);
@@ -107,6 +119,7 @@ void Engine::update()
 	Input::update();
 	HUD::update(delta_time);
 	Timer::update(delta_time);
+	Stage::update(delta_time);
 
 	if (draw_cursor && cursor != nullptr)
 	{
@@ -119,6 +132,7 @@ void Engine::draw()
 	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(renderer);
 	HUD::draw(renderer);
+	Stage::draw(renderer);
 	if (draw_cursor && cursor != nullptr)
 	{
 		cursor->draw(renderer);
