@@ -31,8 +31,8 @@ std::vector<Entity *> * FirstLevel::init()
 	Timer::bind(&fn, 2000);
 
 
-	Input::Callback fps = add_fps;
-	fps_callback_id = Input::bind_key_down(SDL_SCANCODE_W, &fps);
+	//Input::Callback fps = add_fps;
+	//fps_callback_id = Input::bind_key_down(SDL_SCANCODE_W, &fps);
 
 	PointD cursor_size = {14.0f, 20.0f};
 	std::string cursor_image = "cursor.png";
