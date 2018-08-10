@@ -4,6 +4,7 @@
 
 #include "../engine/HUDManager.hpp"
 #include "../engine/Timer.hpp"
+#include "../engine/Cursor.hpp"
 #include "FPSDisplay.hpp"
 
 void display_fps(PointD *position, int refresh_ms);
@@ -32,6 +33,11 @@ std::vector<Entity *> * FirstLevel::init()
 
 	Input::Callback fps = add_fps;
 	fps_callback_id = Input::bind_key_down(SDL_SCANCODE_W, &fps);
+
+	PointD cursor_size = {14.0f, 20.0f};
+	std::string cursor_image = "cursor.png";
+	Cursor::init_cursor(&cursor_image, nullptr, &cursor_size);
+	Cursor::enable_cursor();
 	
 	entities = new std::vector<Entity *>();
 	return entities;

@@ -1,5 +1,6 @@
 #include "../engine/Game.hpp"
 #include "../engine/IScene.hpp"
+#include "../engine/Cursor.hpp"
 
 class SnekGame : public Game
 {

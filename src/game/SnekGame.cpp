@@ -21,7 +21,7 @@ int main(int argc, char *args[])
 
 bool SnekGame::start_game(IScene *scene)
 {
-	SDL_ShowCursor(SDL_DISABLE);
+	Cursor::disable_hardware_cursor();
 
 	return Game::start_game(scene);
 }

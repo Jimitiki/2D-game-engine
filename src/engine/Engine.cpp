@@ -21,8 +21,6 @@ namespace Engine
 	int prev_ticks;
 	int delta_time;
 
-	Cursor *cursor;
-	bool draw_cursor;
 	bool end;
 
 	Input::Callback esc;
@@ -84,10 +82,6 @@ void Engine::run(IScene *scene)
 	SDL_Event event;
 
 	Stage::play_scene(scene);
-	PointD cursor_size = {14.0f, 20.0f};
-	std::string cursor_image = "cursor.png";
-	cursor = new Cursor(&cursor_image, nullptr, &cursor_size);
-	enable_cursor();
 
 	while (!end)
 	{
@@ -120,11 +114,7 @@ void Engine::update()
 	HUD::update(delta_time);
 	Timer::update(delta_time);
 	Stage::update(delta_time);
-
-	if (draw_cursor && cursor != nullptr)
-	{
-		cursor->update(delta_time);
-	}
+	Cursor::update(delta_time);
 }
 
 void Engine::draw()
@@ -133,30 +123,7 @@ void Engine::draw()
 	SDL_RenderClear(renderer);
 	HUD::draw(renderer);
 	Stage::draw(renderer);
-	if (draw_cursor && cursor != nullptr)
-	{
-		cursor->draw(renderer);
-	}
+	Cursor::draw(renderer);
 	
 	SDL_RenderPresent(renderer);
-}
-
-void Engine::set_cursor(Cursor *cursor)
-{
-	Engine::cursor = cursor;
-}
-
-void Engine::disable_cursor()
-{
-	draw_cursor = false;
-}
-
-void Engine::enable_cursor()
-{
-	draw_cursor = true;
-}
-
-bool Engine::is_cursor_enabled()
-{
-	return draw_cursor;
 }
