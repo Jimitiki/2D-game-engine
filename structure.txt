@@ -25,3 +25,15 @@ Components - glorified data stores
 	IMPORTANT: There is not a 1:1 component-type-to-system mapping. So their is no "position" system, the movement
 	system handles updating that together with the movement component. THen, the physics system can update the movement
 	component, and so forth.
+
+
+SYSTEMS:
+	- Graphics
+	- Movement
+	- Logging
+	- Physics
+	- AI
+	- Health
+	- Input
+	- Control
+	- 
