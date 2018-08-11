@@ -1,7 +1,7 @@
 #include "HUDElement.hpp"
 #include "EngineCore.hpp"
 
-HUDElement::HUDElement(point_d *position)
+HUDElement::HUDElement(PointD *position)
 {
 	rect = new SDL_Rect;
 	rect->x = position->x;

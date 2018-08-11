@@ -2,7 +2,8 @@
 #define ENTITY_HPP_
 
 #include <vector>
-#include "rectd.hpp"
+
+#include "RectD.hpp"
 
 struct SDL_Renderer;
 class Sprite;
@@ -14,7 +15,7 @@ class Entity
 		void draw(SDL_Renderer *renderer);
 
 	private:
-		point_d position;
+		PointD position;
 		std::vector <Sprite *> sprites;
 };
 

@@ -19,6 +19,8 @@ namespace Engine
 {
 	SDL_Renderer *get_renderer();
 	int get_delta_time();
+	int get_screen_height();
+	int get_screen_width();
 }
 
 class at_capacity : public std::exception

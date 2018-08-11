@@ -1,29 +1,20 @@
 #include "Animation.hpp"
 #include "EngineCore.hpp"
 
-Animation::Animation(std::string *image_name, std::vector<SDL_Rect *> *src_rects, SDL_Rect *dest_rect, std::vector<int> *transition_times, int uniform_transition_time) 
-		: Sprite(image_name, src_rects->at(0), dest_rect)
+Animation::Animation(std::string *image_name, std::vector<Frame *> *frames, SDL_Rect *dest_rect)
+		: Sprite(image_name, frames->at(0)->src_rect, dest_rect)
 {
-	this->src_rects = src_rects;
-	this->transition_times = transition_times;
-	this->uniform_transition_time = uniform_transition_time;
-	if (transition_times == nullptr)
-	{
-		transition_timer = uniform_transition_time;
-	}
-	else
-	{
-		transition_timer = transition_times->at(0);
-	}
+	this->frames = frames;
+	transition_timer = frames->at(0)->duration;
 }
 
 Animation::~Animation()
 {
-	delete src_rects;
-	if (transition_times != nullptr)
+	for (auto frame : *frames)
 	{
-		delete transition_times;
+		delete frame;
 	}
+	delete frames;
 }
 
 void Animation::draw(SDL_Renderer *renderer)
@@ -31,20 +22,12 @@ void Animation::draw(SDL_Renderer *renderer)
 	transition_timer -= Engine::get_delta_time();
 	if (transition_timer <= 0)
 	{
-		cur_rect_index++;
-		if (cur_rect_index >= src_rects->size())
+		if (++cur_frame >= frames->size())
 		{
-			cur_rect_index = 0;
+			cur_frame = 0;
 		}
-		Src_rect(src_rects->at(cur_rect_index));
-		if (transition_times == nullptr)
-		{
-			transition_timer = uniform_transition_time;
-		}
-		else
-		{
-			transition_timer = transition_times->at(cur_rect_index);
-		}
+		set_src_rect(frames->at(cur_frame)->src_rect);
+		transition_timer = frames->at(cur_frame)->duration;
 	}
 	Sprite::draw(renderer);
 }

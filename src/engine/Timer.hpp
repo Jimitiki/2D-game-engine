@@ -3,11 +3,15 @@
 
 #include <functional>
 
+
 namespace Timer
 {
-	int bind(std::function <void()> callback_fn, int delay);
-	int bind(std::function <void()> callback_fn, int delay, int interval);
-	void unbind(int timer_id);
+	typedef uint32_t CallbackID;
+	typedef std::function <void()> Callback;
+
+	CallbackID bind(Callback *callback_fn, int delay);
+	CallbackID bind(Callback *callback_fn, int delay, int interval);
+	void unbind(CallbackID timer_id);
 	void update(int delta_time);
 }
 

@@ -3,16 +3,16 @@
 
 #include <string>
 
-#include "EngineCore.hpp"
-#include "HUDElement.hpp"
-#include "rectd.hpp"
+#include "../engine/EngineCore.hpp"
+#include "../engine/HUDElement.hpp"
+#include "../engine/RectD.hpp"
 
 class Sprite;
 
 class FPSDisplay : public HUDElement
 {
 	public:
-		FPSDisplay(point_d *position, int update_time);
+		FPSDisplay(PointD *position, int update_time);
 		void update(int delta_time);
 		void draw(SDL_Renderer *renderer);
 

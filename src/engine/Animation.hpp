@@ -7,19 +7,25 @@
 struct SDL_Rect;
 struct SDL_Renderer;
 
+struct Frame
+{
+	SDL_Rect *src_rect;
+	int duration;
+};
+
 class Animation : public Sprite
 {
 	public:
-		Animation(std::string *image_name, std::vector<SDL_Rect *> *src_rects, SDL_Rect *dest_rect, std::vector<int> *transition_times, int uniform_transition_time);
+		Animation(std::string *image_name, std::vector<Frame *> *frames, SDL_Rect *dest_rect);
 		~Animation();
 		virtual void draw(SDL_Renderer *renderer);
 
 	private:
-		std::vector<SDL_Rect *> *src_rects;
-		std::vector<int> *transition_times = nullptr;
+		std::vector<Frame *> *frames;
+		SDL_Rect *dest_recs;
 		int uniform_transition_time;
 
-		int cur_rect_index = 0;
+		int cur_frame = 0;
 		int transition_timer;
 };
 
