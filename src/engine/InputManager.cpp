@@ -4,9 +4,9 @@
 
 namespace Input
 {
-	typedef std::vector<callback *> callback_list;
-	typedef std::map<SDL_Scancode, callback_list> key_map;
-	typedef std::map<uint8_t, callback_list> mouse_map;
+	typedef std::vector<Callback *> CallbackList;
+	typedef std::map<SDL_Scancode, CallbackList> KeyMap;
+	typedef std::map<uint8_t, CallbackList> MouseMap;
 
 	typedef enum
 	{
@@ -19,16 +19,16 @@ namespace Input
 		MOUSE_UP = 6
 	} input_type;
 
-	uint32_t bind_callback(uint32_t input, input_type type, callback *fn, callback_list *callbacks);
+	CallbackID bind_callback(CallbackID input, input_type type, Callback *callback_fn, CallbackList *callbacks);
 
-	key_map key_down_callbacks;
-	key_map key_hold_callbacks;
-	key_map key_up_callbacks;
+	KeyMap key_down_callbacks;
+	KeyMap key_hold_callbacks;
+	KeyMap key_up_callbacks;
 
-	callback_list mouse_motion_callbacks;
-	mouse_map mouse_button_down_callbacks;
-	mouse_map mouse_button_hold_callbacks;
-	mouse_map mouse_button_up_callbacks;
+	CallbackList motion_callbacks;
+	MouseMap button_down_callbacks;
+	MouseMap button_hold_callbacks;
+	MouseMap button_up_callbacks;
 
 	std::vector<bool> key_states(SDL_NUM_SCANCODES);
 	std::vector<bool> mouse_states(5);
@@ -47,13 +47,13 @@ void Input::update()
 		{
 			event.keysym.scancode = pair.first;
 			event.keysym.sym = SDL_GetKeyFromScancode(pair.first);
-			for (auto& fn : pair.second)
+			for (auto& callback_fn : pair.second)
 			{
-				(*fn)(nullptr);
+				(*callback_fn)(nullptr);
 			}
 		}
 	}
-	for (auto pair : mouse_button_hold_callbacks)
+	for (auto pair : button_hold_callbacks)
 	{
 		SDL_MouseButtonEvent event;
 		event.type = MOUSE_DOWN;
@@ -62,69 +62,71 @@ void Input::update()
 		if (mouse_states[pair.first - 1])
 		{
 			event.button = pair.first;
-			for (auto& fn : pair.second)
+			for (auto& callback_fn : pair.second)
 			{
-				(*fn)(nullptr);
+				(*callback_fn)(nullptr);
 			}
 		}
 	}
 }
 
-uint32_t Input::bind_key_down(SDL_Scancode key, callback *fn)
+Input::CallbackID Input::bind_key_down(SDL_Scancode key, Callback *callback_fn)
 {
-	return bind_callback(key, KEY_DOWN, fn, &key_down_callbacks[key]);
+	return bind_callback(key, KEY_DOWN, callback_fn, &key_down_callbacks[key]);
 }
 
-uint32_t Input::bind_key_hold(SDL_Scancode key, callback *fn)
+Input::CallbackID Input::bind_key_hold(SDL_Scancode key, Callback *callback_fn)
 {
-	return bind_callback(key, KEY_HOLD, fn, &key_hold_callbacks[key]);
+	return bind_callback(key, KEY_HOLD, callback_fn, &key_hold_callbacks[key]);
 }
 
-uint32_t Input::bind_key_up(SDL_Scancode key, callback *fn)
+Input::CallbackID Input::bind_key_up(SDL_Scancode key, Callback *callback_fn)
 {
-	return bind_callback(key, KEY_UP, fn, &key_up_callbacks[key]);
+	return bind_callback(key, KEY_UP, callback_fn, &key_up_callbacks[key]);
 }
 
-uint32_t Input::bind_mouse_move(callback *fn)
+Input::CallbackID Input::bind_mouse_move(Callback *callback_fn)
 {
-	if (mouse_motion_callbacks.size() == 65535)
+	if (motion_callbacks.size() == 65535)
 	{
 		throw at_capacity();
 	}
-	mouse_motion_callbacks.push_back(fn);
-	return MOUSE_MOVE << 25 | mouse_motion_callbacks.size() - 1;
+	motion_callbacks.push_back(callback_fn);
+	return MOUSE_MOVE << 25 | motion_callbacks.size() - 1;
 }
 
-uint32_t Input::bind_mouse_button_down(uint8_t button, callback *fn)
+Input::CallbackID Input::bind_button_down(uint8_t button, Callback *callback_fn)
 {
-	return bind_callback(button, MOUSE_DOWN, fn, &mouse_button_down_callbacks[button]);
+	return bind_callback(button, MOUSE_DOWN, callback_fn, &button_down_callbacks[button]);
 }
 
-uint32_t Input::bind_mouse_button_hold(uint8_t button, callback *fn)
+Input::CallbackID Input::bind_button_hold(uint8_t button, Callback *callback_fn)
 {
-	return bind_callback(button, MOUSE_HOLD, fn, &mouse_button_hold_callbacks[button]);
+	return bind_callback(button, MOUSE_HOLD, callback_fn, &button_hold_callbacks[button]);
 }
 
-uint32_t Input::bind_mouse_button_up(uint8_t button, callback *fn)
+Input::CallbackID Input::bind_button_up(uint8_t button, Callback *callback_fn)
 {
-	return bind_callback(button, MOUSE_UP, fn, &mouse_button_up_callbacks[button]);
+	return bind_callback(button, MOUSE_UP, callback_fn, &button_up_callbacks[button]);
 }
 
-uint32_t Input::bind_callback(uint32_t input, input_type type, callback *fn, callback_list *callbacks)
+Input::CallbackID Input::bind_callback(CallbackID input, input_type type, Callback *callback_fn, CallbackList *callbacks)
 {
 	if (callbacks->size() == 65535)	//16 bits. I figure 65 thousand callbacks is more than enough for one input.
 	{
 		throw at_capacity();
 	}
+	Callback *fn = new Callback;
+	*fn = *callback_fn; // Copy the callback using allocated memory so that we can feel "safe" managing it here.
 	callbacks->push_back(fn);
-	return type << 25 | input << 16 | static_cast<uint32_t> (callbacks->size() - 1); //append the input type and the key code to the index
+	return type << 25 | input << 16 | static_cast<CallbackID> (callbacks->size() - 1); //append the input type and the key code to the index
 }
 
 void Input::handle_input_event(SDL_Event *event)
 {
 	try
 	{
-		callback_list *callbacks;
+		CallbackList *callbacks;
 		switch(event->type)
 		{
 			case SDL_KEYDOWN:
@@ -143,47 +145,47 @@ void Input::handle_input_event(SDL_Event *event)
 				break;
 			case SDL_MOUSEMOTION:
 				{
-					callbacks = &mouse_motion_callbacks;
+					callbacks = &motion_callbacks;
 				}
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 				{
 					SDL_MouseButtonEvent *m_event = reinterpret_cast<SDL_MouseButtonEvent *> (event);
 					mouse_states[m_event->button] = true;
-					callbacks = &mouse_button_down_callbacks.at(m_event->button);
+					callbacks = &button_down_callbacks.at(m_event->button);
 				}
 				break;
 			case SDL_MOUSEBUTTONUP:
 				{
 					SDL_MouseButtonEvent *m_event = reinterpret_cast<SDL_MouseButtonEvent *> (event);
 					mouse_states[m_event->button] = false;
-					callbacks = &mouse_button_up_callbacks.at(m_event->button);
+					callbacks = &button_up_callbacks.at(m_event->button);
 				}
 				break;
 			default:
 				return;
 		}
 
-		for (auto& fn : *callbacks)
+		for (auto& callback_fn : *callbacks)
 		{
-			if (fn != nullptr)
+			if (callback_fn != nullptr)
 			{
-				(*fn)(event);
+				(*callback_fn)(event);
 			}
 		}
 	}
 	catch (std::out_of_range) {}
 }
 
-Input::callback *Input::unbind(uint32_t id)
+Input::Callback *Input::unbind(CallbackID id)
 {
 	int index = id & 0x0000FFFF;
 	id = id >> 16;
 	int input = id & 0x01FF;
 	input_type type = static_cast<input_type> (id >> 9);
 
-	callback_list *callbacks = nullptr;
-	callback *fn;
+	CallbackList *callbacks = nullptr;
+	Callback *callback_fn;
 
 	try{
 		switch(type)
@@ -199,16 +201,16 @@ Input::callback *Input::unbind(uint32_t id)
 				callbacks = &key_up_callbacks.at(static_cast<SDL_Scancode> (input));
 				break;
 			case MOUSE_MOVE:
-				callbacks = &mouse_motion_callbacks;
+				callbacks = &motion_callbacks;
 				break;
 			case MOUSE_DOWN:
-				callbacks = &mouse_button_down_callbacks.at(input);
+				callbacks = &button_down_callbacks.at(input);
 				break;
 			case MOUSE_HOLD:
-				callbacks = &mouse_button_down_callbacks.at(input);
+				callbacks = &button_down_callbacks.at(input);
 				break;
 			case MOUSE_UP:
-				callbacks = &mouse_button_down_callbacks.at(input);
+				callbacks = &button_down_callbacks.at(input);
 				break;
 			default:
 				return nullptr;
@@ -218,12 +220,12 @@ Input::callback *Input::unbind(uint32_t id)
 		{
 			return nullptr;
 		}
-		fn = callbacks->at(index);
+		callback_fn = callbacks->at(index);
 		callbacks->at(index) = nullptr;
 	}
 	catch (std::out_of_range)
 	{
-		fn = nullptr;
+		callback_fn = nullptr;
 	}
-	return fn;
+	return callback_fn;
 }

@@ -2,28 +2,19 @@
 #define CURSOR_HPP_
 
 #include <string>
-#include "rectd.hpp"
+
+#include "RectD.hpp"
 #include "EngineCore.hpp"
 
-class Cursor
+namespace Cursor
 {
-public:
-	Cursor(std::string *image_name, SDL_Rect *src_rect, point_d *dimensions);
 	void update(int delta_time);
 	void draw(SDL_Renderer *renderer);
-
-private:
-	SDL_Texture *texture = nullptr;
-	SDL_Rect *src_rect = nullptr;
-	SDL_Rect *dest_rect = nullptr;
-};
-
-namespace Engine
-{
-	void set_cursor(Cursor *cursor);
+	void init_cursor(std::string *image_name, SDL_Rect *src_rect, PointD *dimensions);
 	void disable_cursor();
 	void enable_cursor();
-	bool is_cursor_enabled();
+	void disable_hardware_cursor();
+	void enable_hardware_cursor();
 }
 
 #endif

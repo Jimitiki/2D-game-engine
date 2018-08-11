@@ -1,11 +1,11 @@
-#ifndef GEOMETRY_HPP_
-#define GEOMETRY_HPP_
+#ifndef RECTD_HPP_
+#define RECTD_HPP_
 
 typedef struct
 {
 	double x;
 	double y;
-} point_d;
+} PointD;
 
 typedef struct
 {
@@ -13,6 +13,6 @@ typedef struct
 	double left;
 	double top;
 	double width;
-} rect_d;
+} RectD;
 
 #endif

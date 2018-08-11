@@ -48,7 +48,12 @@ void Sprite::draw(SDL_Renderer *renderer)
 	}
 }
 
-void Sprite::Src_rect(SDL_Rect *src_rect)
+void Sprite::set_src_rect(SDL_Rect *src_rect)
 {
 	this->src_rect = src_rect;
+}
+
+void Sprite::set_dest_rect(SDL_Rect *dest_rect)
+{
+	this->dest_rect = dest_rect;
 }

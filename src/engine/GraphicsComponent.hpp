@@ -3,17 +3,17 @@
 
 #include "EngineCore.hpp"
 #include "Sprite.hpp"
-#include "rectd.hpp"
+#include "RectD.hpp"
 
 class GraphicsComponent
 {
     public:
-        GraphicsComponent(point_d *position);
+        GraphicsComponent(PointD *position);
         void update(double delta_time);
         void draw(SDL_Renderer *renderer);
 
     private:
-        point_d *position;
+        PointD *position;
         Sprite *sprite;
 };
 
