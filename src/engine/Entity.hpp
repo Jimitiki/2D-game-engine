@@ -2,21 +2,23 @@
 #define ENTITY_HPP_
 
 #include <vector>
+#include <map>
 
-#include "RectD.hpp"
-
-struct SDL_Renderer;
-class Sprite;
+#include "Component.hpp"
 
 class Entity
 {
-	public:
-		void update(int delta_time);
-		void draw(SDL_Renderer *renderer);
+public:
+	uint64_t get_type_id() const;
+	std::vector<Component*>* get_components_by_type(Component::Type component_type);
+	void add_entity(Entity* entity);
+	void add_component(Component* component);
 
-	private:
-		PointD position;
-		std::vector <Sprite *> sprites;
+private:
+
+	uint64_t type_id;
+	std::vector<Entity*> entities;
+	std::map<Component::Type, std::vector<Component*>> components;
 };
 
 #endif
