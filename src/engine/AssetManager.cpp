@@ -71,7 +71,7 @@ bool Asset::image(std::string *image_name, SDL_Surface **surface)
 	{
 		*surface = result->second;
 	}
-	return false;
+	return true;
 }
 
 void Asset::unload_all()
