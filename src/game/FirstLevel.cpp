@@ -5,6 +5,7 @@
 #include "../engine/HUDManager.hpp"
 #include "../engine/Timer.hpp"
 #include "../engine/Cursor.hpp"
+#include "../engine/GraphicsComponent.hpp"
 #include "FPSDisplay.hpp"
 
 void display_fps(PointD *position, int refresh_ms);
@@ -40,6 +41,10 @@ std::vector<Entity *> * FirstLevel::init()
 	Cursor::enable_cursor();
 	
 	entities = new std::vector<Entity *>();
+	Entity* entity = new Entity();
+
+	entity->add_component(new GraphicsComponent(&std::string("black_dot.png"), 0, 0, 1, 1, 200, 200, 60, 60));
+	entities->push_back(entity);
 	return entities;
 }
 
