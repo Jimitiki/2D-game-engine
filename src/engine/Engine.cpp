@@ -4,6 +4,7 @@
 
 #include "EngineCore.hpp"
 #include "AssetManager.hpp"
+#include "GraphicsManager.hpp"
 #include "HUDManager.hpp"
 #include "Timer.hpp"
 #include "Cursor.hpp"
@@ -65,6 +66,8 @@ bool Engine::init(SDL_Renderer* renderer, int screen_height, int screen_width)
 
 	esc = escape;
 	Input::bind_key_down(SDL_SCANCODE_ESCAPE, &esc);
+
+	Graphics::init(renderer);
 
     return true;
 }
