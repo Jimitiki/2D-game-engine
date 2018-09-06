@@ -17,9 +17,9 @@ namespace Input
 		MOUSE_DOWN = 4,
 		MOUSE_HOLD = 5,
 		MOUSE_UP = 6
-	} input_type;
+	} InputType;
 
-	CallbackID bind_callback(CallbackID input, input_type type, Callback *callback_fn, CallbackList *callbacks);
+	CallbackID bind_callback(CallbackID input, InputType input_type, Callback *callback_fn, CallbackList *callbacks);
 
 	KeyMap key_down_callbacks;
 	KeyMap key_hold_callbacks;
@@ -39,7 +39,7 @@ void Input::update()
 	for (auto pair : key_hold_callbacks)
 	{
 		SDL_KeyboardEvent event;
-		event.type = KEY_DOWN;
+		event.type = InputType::KEY_DOWN;
 		event.state = SDL_PRESSED;
 		event.keysym.mod = SDL_GetModState();
 
@@ -56,7 +56,7 @@ void Input::update()
 	for (auto pair : button_hold_callbacks)
 	{
 		SDL_MouseButtonEvent event;
-		event.type = MOUSE_DOWN;
+		event.type = InputType::MOUSE_DOWN;
 		event.state = SDL_PRESSED;
 
 		if (mouse_states[pair.first - 1])
@@ -72,17 +72,17 @@ void Input::update()
 
 Input::CallbackID Input::bind_key_down(SDL_Scancode key, Callback *callback_fn)
 {
-	return bind_callback(key, KEY_DOWN, callback_fn, &key_down_callbacks[key]);
+	return bind_callback(key, InputType::KEY_DOWN, callback_fn, &key_down_callbacks[key]);
 }
 
 Input::CallbackID Input::bind_key_hold(SDL_Scancode key, Callback *callback_fn)
 {
-	return bind_callback(key, KEY_HOLD, callback_fn, &key_hold_callbacks[key]);
+	return bind_callback(key, InputType::KEY_HOLD, callback_fn, &key_hold_callbacks[key]);
 }
 
 Input::CallbackID Input::bind_key_up(SDL_Scancode key, Callback *callback_fn)
 {
-	return bind_callback(key, KEY_UP, callback_fn, &key_up_callbacks[key]);
+	return bind_callback(key, InputType::KEY_UP, callback_fn, &key_up_callbacks[key]);
 }
 
 Input::CallbackID Input::bind_mouse_move(Callback *callback_fn)
@@ -97,20 +97,20 @@ Input::CallbackID Input::bind_mouse_move(Callback *callback_fn)
 
 Input::CallbackID Input::bind_button_down(uint8_t button, Callback *callback_fn)
 {
-	return bind_callback(button, MOUSE_DOWN, callback_fn, &button_down_callbacks[button]);
+	return bind_callback(button, InputType::MOUSE_DOWN, callback_fn, &button_down_callbacks[button]);
 }
 
 Input::CallbackID Input::bind_button_hold(uint8_t button, Callback *callback_fn)
 {
-	return bind_callback(button, MOUSE_HOLD, callback_fn, &button_hold_callbacks[button]);
+	return bind_callback(button, InputType::MOUSE_HOLD, callback_fn, &button_hold_callbacks[button]);
 }
 
 Input::CallbackID Input::bind_button_up(uint8_t button, Callback *callback_fn)
 {
-	return bind_callback(button, MOUSE_UP, callback_fn, &button_up_callbacks[button]);
+	return bind_callback(button, InputType::MOUSE_UP, callback_fn, &button_up_callbacks[button]);
 }
 
-Input::CallbackID Input::bind_callback(CallbackID input, input_type type, Callback *callback_fn, CallbackList *callbacks)
+Input::CallbackID Input::bind_callback(CallbackID input, InputType input_type, Callback *callback_fn, CallbackList *callbacks)
 {
 	if (callbacks->size() == 65535)	//16 bits. I figure 65 thousand callbacks is more than enough for one input.
 	{
@@ -119,7 +119,7 @@ Input::CallbackID Input::bind_callback(CallbackID input, input_type type, Callba
 	Callback *fn = new Callback;
 	*fn = *callback_fn; // Copy the callback using allocated memory so that we can feel "safe" managing it here.
 	callbacks->push_back(fn);
-	return type << 25 | input << 16 | static_cast<CallbackID> (callbacks->size() - 1); //append the input type and the key code to the index
+	return input_type << 25 | input << 16 | static_cast<CallbackID> (callbacks->size() - 1); //append the input type and the key code to the index
 }
 
 void Input::handle_input_event(SDL_Event *event)
@@ -182,34 +182,34 @@ Input::Callback *Input::unbind(CallbackID id)
 	int index = id & 0x0000FFFF;
 	id = id >> 16;
 	int input = id & 0x01FF;
-	input_type type = static_cast<input_type> (id >> 9);
+	InputType input_type = static_cast<InputType> (id >> 9);
 
 	CallbackList *callbacks = nullptr;
 	Callback *callback_fn;
 
 	try{
-		switch(type)
+		switch(input_type)
 		{
-			case KEY_DOWN:
+			case InputType::KEY_DOWN:
 				callbacks = &key_down_callbacks.at(static_cast<SDL_Scancode> (input));
 				break;
-			case KEY_HOLD:
+			case InputType::KEY_HOLD:
 				static_cast<SDL_Scancode> (input);
 				callbacks = &key_hold_callbacks.at(static_cast<SDL_Scancode> (input));
 				break;
-			case KEY_UP:
+			case InputType::KEY_UP:
 				callbacks = &key_up_callbacks.at(static_cast<SDL_Scancode> (input));
 				break;
-			case MOUSE_MOVE:
+			case InputType::MOUSE_MOVE:
 				callbacks = &motion_callbacks;
 				break;
-			case MOUSE_DOWN:
+			case InputType::MOUSE_DOWN:
 				callbacks = &button_down_callbacks.at(input);
 				break;
-			case MOUSE_HOLD:
+			case InputType::MOUSE_HOLD:
 				callbacks = &button_down_callbacks.at(input);
 				break;
-			case MOUSE_UP:
+			case InputType::MOUSE_UP:
 				callbacks = &button_down_callbacks.at(input);
 				break;
 			default:

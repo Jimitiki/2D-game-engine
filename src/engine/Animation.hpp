@@ -22,11 +22,10 @@ class Animation : public Sprite
 
 	private:
 		std::vector<Frame *> *frames;
-		SDL_Rect *dest_recs;
-		int uniform_transition_time;
+		SDL_Rect *dest_rect;
 
-		int cur_frame = 0;
-		int transition_timer;
+		unsigned int cur_frame = 0;
+		unsigned int transition_timer;
 };
 
 #endif

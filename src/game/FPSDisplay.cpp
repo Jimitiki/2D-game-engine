@@ -36,7 +36,6 @@ FPSDisplay::FPSDisplay(PointD *position, int update_time) : HUDElement(position)
 	sprite_rect->y = position->y;
 	std::string sprite_image = "fpsbackground_anim.png";
 	background = new Animation(&sprite_image, frames, sprite_rect);
-	//background = new Sprite(&sprite_image, rects->at(2), sprite_rect);
 }
 
 void FPSDisplay::update(int delta_time)
