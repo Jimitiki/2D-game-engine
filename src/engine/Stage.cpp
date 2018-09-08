@@ -8,11 +8,11 @@ namespace Stage
 	{
 		
 	}
-	PointD bounds;
+	Vec2D bounds;
 	std::vector<Entity *> *entities;
 }
 
-PointD Stage::get_bounds()
+Vec2D Stage::get_bounds()
 {
 	return bounds;
 }

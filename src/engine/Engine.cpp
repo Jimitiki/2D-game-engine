@@ -8,7 +8,7 @@
 #include "HUDManager.hpp"
 #include "Timer.hpp"
 #include "Cursor.hpp"
-#include "RectD.hpp"
+#include "geometry.hpp"
 #include "InputManager.hpp"
 #include "Stage.hpp"
 

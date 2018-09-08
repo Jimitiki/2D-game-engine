@@ -15,7 +15,7 @@ namespace Cursor
 	Cursor cursor = {nullptr, nullptr, nullptr};
 }
 
-void Cursor::init_cursor(std::string *image_name, SDL_Rect *src_rect, PointD *dimensions)
+void Cursor::init_cursor(std::string *image_name, SDL_Rect *src_rect, Vec2D *dimensions)
 {
 	cursor.dest_rect = new SDL_Rect;
 	if (src_rect != nullptr)

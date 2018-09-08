@@ -5,14 +5,14 @@
 
 #include "../engine/EngineCore.hpp"
 #include "../engine/HUDElement.hpp"
-#include "../engine/RectD.hpp"
+#include "../engine/geometry.hpp"
 
 class Sprite;
 
 class FPSDisplay : public HUDElement
 {
 	public:
-		FPSDisplay(PointD *position, int update_time);
+		FPSDisplay(Vec2D *position, int update_time);
 		void update(int delta_time);
 		void draw(SDL_Renderer *renderer);
 

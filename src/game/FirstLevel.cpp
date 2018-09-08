@@ -6,9 +6,10 @@
 #include "../engine/Timer.hpp"
 #include "../engine/Cursor.hpp"
 #include "../engine/GraphicsComponent.hpp"
+#include "../engine/TransformComponent.hpp"
 #include "FPSDisplay.hpp"
 
-void display_fps(PointD *position, int refresh_ms);
+void display_fps(Vec2D *position, int refresh_ms);
 
 FPSDisplay *fps_display;
 
@@ -18,7 +19,7 @@ Input::CallbackID fps_callback_id;
 
 std::vector<Entity *> * FirstLevel::init()
 {
-	PointD *fps_position = new PointD;
+	Vec2D *fps_position = new Vec2D;
 	fps_position->x = 0.0f;
 	fps_position->y = 0.0f;
 	display_fps(fps_position, 600);
@@ -35,7 +36,7 @@ std::vector<Entity *> * FirstLevel::init()
 	//Input::Callback fps = add_fps;
 	//fps_callback_id = Input::bind_key_down(SDL_SCANCODE_W, &fps);
 
-	PointD cursor_size = {14.0f, 20.0f};
+	Vec2D cursor_size = {14.0f, 20.0f};
 	std::string cursor_image = "cursor.png";
 	Cursor::init_cursor(&cursor_image, nullptr, &cursor_size);
 	Cursor::enable_cursor();
@@ -43,12 +44,19 @@ std::vector<Entity *> * FirstLevel::init()
 	entities = new std::vector<Entity *>();
 	Entity* entity = new Entity();
 
-	entity->add_component(new GraphicsComponent(&std::string("black_dot.png"), 0, 0, 1, 1, 200, 200, 60, 60));
+	SDL_Rect src = {0, 0, 1, 1};
+	SDL_Rect dest = {200, 200, 60, 60};
+
+	Vec2D position = {600, 900};
+	Vec2D scale = {1, 1};
+
+	entity->add_component(new GraphicsComponent(&std::string("black_dot.png"), &src, &dest));
+	entity->add_component(new TransformComponent(&position, 0, &scale));
 	entities->push_back(entity);
 	return entities;
 }
 
-void display_fps(PointD *position, int refresh_ms)
+void display_fps(Vec2D *position, int refresh_ms)
 {
 	HUD::add(new FPSDisplay(position, refresh_ms));
 }
@@ -59,7 +67,7 @@ void add_fps(SDL_Event *event)
 	{
 		return;
 	}
-	PointD fps_position = {Engine::get_screen_width() / 2.0f,  Engine::get_screen_height() / 2.0f};
+	Vec2D fps_position = {Engine::get_screen_width() / 2.0f,  Engine::get_screen_height() / 2.0f};
 	fps_display = new FPSDisplay(&fps_position, 970);
 	HUD::add(fps_display);
 

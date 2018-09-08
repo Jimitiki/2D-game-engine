@@ -5,7 +5,7 @@ typedef struct
 {
 	double x;
 	double y;
-} PointD;
+} Vec2D;
 
 typedef struct
 {

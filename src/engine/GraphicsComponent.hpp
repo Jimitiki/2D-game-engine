@@ -4,7 +4,7 @@
 #include "Component.hpp"
 #include "EngineCore.hpp"
 #include "Sprite.hpp"
-#include "RectD.hpp"
+#include "geometry.hpp"
 
 class GraphicsComponent : public Component
 {

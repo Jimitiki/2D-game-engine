@@ -5,7 +5,7 @@
 #include "../engine/AssetManager.hpp"
 #include "../engine/Animation.hpp"
 
-FPSDisplay::FPSDisplay(PointD *position, int update_time) : HUDElement(position)
+FPSDisplay::FPSDisplay(Vec2D *position, int update_time) : HUDElement(position)
 {
 	this->update_time = update_time;
 	Asset::font(&FONT_NAME, FONT_SIZE, &font);

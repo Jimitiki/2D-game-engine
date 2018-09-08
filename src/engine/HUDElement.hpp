@@ -2,12 +2,12 @@
 #define HUDELEMENT_HPP_
 
 #include "EngineCore.hpp"
-#include "RectD.hpp"
+#include "geometry.hpp"
 
 class HUDElement
 {
 	public:
-		HUDElement(PointD *position);
+		HUDElement(Vec2D *position);
 		virtual ~HUDElement();
 		virtual void draw(SDL_Renderer *renderer) = 0;
 		virtual void update(int delta_time) = 0;
