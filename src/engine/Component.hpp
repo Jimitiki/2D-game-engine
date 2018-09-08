@@ -9,21 +9,20 @@ class Component
 public:
 	typedef enum
 	{
-		NONE     = 0,
-		GRAPHICS = 1,
-		INPUT    = 2,
-		CONTROL  = 4,
-		POSITION = 8,
-		MOVEMENT = 16
+		NONE      = 0,
+		GRAPHICS  = 1,
+		INPUT     = 2,
+		CONTROL   = 4,
+		TRANSFORM = 8,
+		MOVEMENT  = 16
 	} Type;
 
-	//void add_component(Component* component);
 	virtual ~Component() {}
-	//std::vector<Component*> components;
+	virtual void update() {}
 	const Component::Type component_type;
 
 protected:
-	Component(Component::Type component_type);
+	Component(Component::Type component_type) : component_type(component_type) {};
 };
 
 #endif
