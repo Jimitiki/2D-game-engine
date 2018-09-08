@@ -1,6 +1,7 @@
 #include "GraphicsManager.hpp"
 
 #include "GraphicsComponent.hpp"
+#include "TransformComponent.hpp"
 
 namespace Graphics
 {
@@ -18,17 +19,19 @@ void Graphics::draw(const std::vector<Entity*>* entities)
 	{
 		if (entity->get_type_id() & Component::Type::GRAPHICS)
 		{
-			std::vector<Component*>* components = entity->get_components_by_type(Component::Type::GRAPHICS);
-			for (int i = 0; i < components->size(); i++)
+			GraphicsComponent* component = (GraphicsComponent*) entity->get_component(Component::Type::GRAPHICS);
+			if (entity->get_type_id() & Component::Type::TRANSFORM)
 			{
-				GraphicsComponent* component = (GraphicsComponent*) (components->at(i));
-				if (component->texture == nullptr)
-				{
-					component->texture = SDL_CreateTextureFromSurface(Engine::get_renderer(), component->surface);
-				}
-				SDL_Rect dest = *component->dest_rect;
-				SDL_RenderCopy(renderer, component->texture, component->src_rect, &dest);
+				TransformComponent* t_component = (TransformComponent*) entity->get_component(Component::Type::TRANSFORM);
+				component->dest_rect.x = t_component->position.x;
+				component->dest_rect.y = t_component->position.y;
 			}
+			if (component->texture == nullptr)
+			{
+				component->texture = SDL_CreateTextureFromSurface(Engine::get_renderer(), component->surface);
+			}
+			SDL_Rect dest = component->dest_rect;
+			SDL_RenderCopy(renderer, component->texture, &component->src_rect, &dest);
 		}
 	}
 }
