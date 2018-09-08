@@ -10,15 +10,16 @@ class Entity
 {
 public:
 	uint64_t get_type_id() const;
-	std::vector<Component*>* get_components_by_type(Component::Type component_type);
+	Component* get_component(Component::Type component_type);
 	void add_entity(Entity* entity);
 	void add_component(Component* component);
+	void remove_component(Component::Type component_type);
 
 private:
 
 	uint64_t type_id;
 	std::vector<Entity*> entities;
-	std::map<Component::Type, std::vector<Component*>> components;
+	std::map<Component::Type, Component*> components;
 };
 
 #endif
