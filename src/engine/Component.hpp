@@ -19,7 +19,7 @@ public:
 	} Type;
 
 	virtual ~Component() {}
-	virtual void update() {}
+	virtual void update(int delta_t) {}
 	const Component::Type component_type;
 
 protected:
