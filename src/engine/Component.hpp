@@ -3,6 +3,7 @@
 
 #include <vector>
 
+class Entity;
 
 class Component
 {
@@ -23,6 +24,10 @@ public:
 
 protected:
 	Component(Component::Type component_type) : component_type(component_type) {};
+	Component* get_sibling_component(Component::Type component_type);
+
+private:
+	Entity* parent;
 };
 
 #endif
