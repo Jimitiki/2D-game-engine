@@ -7,6 +7,7 @@
 #include "../engine/Cursor.hpp"
 #include "../engine/GraphicsComponent.hpp"
 #include "../engine/TransformComponent.hpp"
+#include "SquareMovementComponent.hpp"
 #include "FPSDisplay.hpp"
 
 void display_fps(Vec2D *position, int refresh_ms);
@@ -42,17 +43,21 @@ std::vector<Entity *> * FirstLevel::init()
 	Cursor::enable_cursor();
 	
 	entities = new std::vector<Entity *>();
-	Entity* entity = new Entity();
+	for (int i = 0; i < 5; i++)
+	{
+		Entity* entity = new Entity();
 
-	SDL_Rect src = {0, 0, 1, 1};
-	SDL_Rect dest = {200, 200, 60, 60};
+		SDL_Rect src = {0, 0, 1, 1};
+		SDL_Rect dest = {200, 200, 60, 60};
 
-	Vec2D position = {600, 900};
-	Vec2D scale = {1, 1};
+		Vec2D position = {300 + i * 200, 200 + i * 100};
+		Vec2D scale = {1, 1};
 
-	entity->add_component(new GraphicsComponent(&std::string("black_dot.png"), &src, &dest));
-	entity->add_component(new TransformComponent(&position, 0, &scale));
-	entities->push_back(entity);
+		entity->add_component(new GraphicsComponent(&std::string("black_dot.png"), &src, &dest));
+		entity->add_component(new TransformComponent(&position, 0, &scale));
+		entity->add_component(new SquareMovementComponent(200 + i * 100, 1 - i * 0.1));
+		entities->push_back(entity);
+	}
 	return entities;
 }
 
