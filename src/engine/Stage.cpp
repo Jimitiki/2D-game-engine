@@ -1,6 +1,8 @@
 #include "Stage.hpp"
 #include "Entity.hpp"
 #include "GraphicsManager.hpp"
+#include "MovementManager.hpp"
+#include "TransformManager.hpp"
 
 namespace Stage
 {
@@ -24,7 +26,8 @@ void Stage::play_scene(IScene *scene)
 
 void Stage::update(int delta_time)
 {
-
+	Movement::update(delta_time, Stage::entities);
+	Transform::update(delta_time, Stage::entities);
 }
 
 void Stage::draw(SDL_Renderer *renderer)
