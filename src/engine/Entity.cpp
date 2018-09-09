@@ -3,6 +3,15 @@
 #include "Component.hpp"
 #include "EngineCore.hpp"
 
+Entity::~Entity()
+{
+	std::map<Component::Type, Component*>::iterator it;
+	for (it = components.begin(); it != components.end(); it++)
+	{
+		delete it->second;
+	}
+}
+
 uint64_t Entity::get_type_id() const
 {
 	return type_id;

@@ -9,6 +9,7 @@
 class Entity
 {
 public:
+	~Entity();
 	uint64_t get_type_id() const;
 	Component* get_component(Component::Type component_type);
 	void add_entity(Entity* entity);
