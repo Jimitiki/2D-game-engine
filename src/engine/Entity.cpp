@@ -37,6 +37,7 @@ void Entity::add_component(Component* component)
 	std::pair<std::map<Component::Type, Component*>::iterator, bool> location;
 	location = components.insert(std::pair<Component::Type, Component*>(component->component_type, component));
 	this->type_id |= component->component_type;
+	component->set_parent(this);
 }
 
 void Entity::remove_component(Component::Type component_type)

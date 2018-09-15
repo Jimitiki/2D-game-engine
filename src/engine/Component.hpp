@@ -21,6 +21,7 @@ public:
 	virtual ~Component() {}
 	virtual void update(int delta_t) {}
 	const Component::Type component_type;
+	void set_parent(Entity* parent);
 
 protected:
 	Component(Component::Type component_type) : component_type(component_type) {};
