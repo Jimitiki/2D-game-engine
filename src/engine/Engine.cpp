@@ -5,11 +5,11 @@
 #include "EngineCore.hpp"
 #include "AssetManager.hpp"
 #include "GraphicsManager.hpp"
+#include "InputManager.hpp"
 #include "HUDManager.hpp"
 #include "Timer.hpp"
 #include "Cursor.hpp"
 #include "geometry.hpp"
-#include "InputManager.hpp"
 #include "Stage.hpp"
 
 
