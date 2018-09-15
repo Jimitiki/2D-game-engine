@@ -1,5 +1,7 @@
 #include "Game.hpp"
 
+#include <iostream>
+
 #include "EngineCore.hpp"
 #include "Engine.hpp"
 
@@ -13,7 +15,7 @@ Game::Game()
 
 bool Game::init_window()
 {
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER | SDL_INIT_JOYSTICK) < 0)
 	{
 		print_sdl_error();
 		return false;
@@ -77,6 +79,14 @@ bool Game::init_window()
 
 bool Game::start_game(IScene *scene)
 {
+	SDL_GameController *controller = NULL;
+	for (int i = 0; i < SDL_NumJoysticks(); ++i) {
+		controller = SDL_GameControllerOpen(i);
+		if (controller) {
+			std::cout << "Found a valid controller, named: " << SDL_GameControllerName(controller) << "\n";
+		}
+	}
+
 	if (Engine::init(renderer, screen_height, screen_width))
 	{
 		Engine::run(scene);
