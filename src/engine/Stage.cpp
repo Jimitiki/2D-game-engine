@@ -1,5 +1,6 @@
 #include "Stage.hpp"
 #include "Entity.hpp"
+#include "ControlManager.hpp"
 #include "GraphicsManager.hpp"
 #include "MovementManager.hpp"
 #include "TransformManager.hpp"
@@ -28,6 +29,7 @@ void Stage::update(int delta_time)
 {
 	Movement::update(delta_time, Stage::entities);
 	Transform::update(delta_time, Stage::entities);
+	Control::update(delta_time, Stage::entities);
 }
 
 void Stage::draw(SDL_Renderer *renderer)
