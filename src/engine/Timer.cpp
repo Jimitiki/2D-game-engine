@@ -30,7 +30,7 @@ Timer::CallbackID Timer::bind(Callback *callback_fn, int delay, int interval)
 	Timer *callback = new Timer;
 	callback->callback = *callback_fn;
 	callback->delay = delay;
-	callback->interval = -1;
+	callback->interval = interval;
 	callback->call_timer = delay;
 
 	if (unbound_slots.size() == 0)
