@@ -10,7 +10,7 @@ Animation::Animation(std::string *image_name, std::vector<Frame *> *frames, SDL_
 
 Animation::~Animation()
 {
-	for (auto frame : *frames)
+	for (Frame* frame : *frames)
 	{
 		delete frame;
 	}
