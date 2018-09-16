@@ -25,7 +25,7 @@ class Animation : public Sprite
 		SDL_Rect *dest_rect;
 
 		unsigned int cur_frame = 0;
-		unsigned int transition_timer;
+		int transition_timer;
 };
 
 #endif
