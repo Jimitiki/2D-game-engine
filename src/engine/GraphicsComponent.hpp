@@ -15,7 +15,7 @@ class GraphicsComponent : public Component
 		SDL_Surface* surface;
 		SDL_Rect src_rect;
 		SDL_Rect dest_rect;
-		SDL_Texture* texture;
+		SDL_Texture* texture = nullptr;
 		uint32_t layer;
 };
 
