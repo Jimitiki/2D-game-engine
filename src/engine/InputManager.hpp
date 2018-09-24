@@ -11,6 +11,13 @@ namespace Input
 	typedef std::function<void (SDL_Event *)> Callback;
 	typedef uint32_t CallbackID;
 
+	typedef enum
+	{
+		DOWN,
+		HOLD,
+		UP
+	} Type;
+
 	void handle_input_event(SDL_Event *event);
 	void update();
 
