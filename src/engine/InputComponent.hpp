@@ -2,16 +2,17 @@
 #define INPUT_COMPONENT_HPP
 
 #include <vector>
-#include "EngineCore.hpp"
 
-class InputComponent
+#include "Component.hpp"
+#include "InputManager.hpp"
+
+class InputComponent : public Component
 {
 	public:
-		InputComponent();
-		~InputComponent();
+		InputComponent() : Component(Component::INPUT) {}
 
-	private:
-		std::vector<Uint32> callback_ids;
+		void add_key_input(SDL_Scancode key, Input::Type, std::string action_name);
+
 };
 
 #endif
