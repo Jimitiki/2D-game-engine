@@ -4,6 +4,7 @@
 #include "GraphicsManager.hpp"
 #include "MovementManager.hpp"
 #include "TransformManager.hpp"
+#include "InputManager.hpp"
 
 namespace Stage
 {
@@ -27,6 +28,7 @@ void Stage::play_scene(IScene *scene)
 
 void Stage::update(int delta_time)
 {
+	Input::update(delta_time, entities);
 	Movement::update(delta_time, Stage::entities);
 	Transform::update(delta_time, Stage::entities);
 	Control::update(delta_time, Stage::entities);
