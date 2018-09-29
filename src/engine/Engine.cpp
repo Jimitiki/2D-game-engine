@@ -24,8 +24,6 @@ namespace Engine
 
 	bool end;
 
-	Input::Callback esc;
-
 	void update();
 	void draw();
 	void quit();
@@ -64,10 +62,8 @@ bool Engine::init(SDL_Renderer* renderer, int screen_height, int screen_width)
 	Engine::screen_width = screen_width;
 	Engine::screen_height = screen_height;
 
-	esc = escape;
-	Input::bind_key_down(SDL_SCANCODE_ESCAPE, &esc);
-
 	Graphics::init(renderer);
+	Input::init();
 
     return true;
 }
@@ -94,10 +90,6 @@ void Engine::run(IScene *scene)
 			{
 				end = true;
 			}
-			else
-			{
-				Input::handle_input_event(&event);
-			}
 		}
 
 		int ticks = SDL_GetTicks();
@@ -113,7 +105,6 @@ void Engine::run(IScene *scene)
 
 void Engine::update()
 {
-	Input::update();
 	HUD::update(delta_time);
 	Timer::update(delta_time);
 	Stage::update(delta_time);

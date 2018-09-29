@@ -19,7 +19,6 @@ FPSDisplay *fps_display;
 
 void add_fps(SDL_Event *event);
 void delete_fps(SDL_Event *event);
-Input::CallbackID fps_callback_id;
 
 std::vector<Entity *> * FirstLevel::init()
 {
@@ -79,8 +78,6 @@ void add_fps(SDL_Event *event)
 	Vec2D fps_position = {Engine::get_screen_width() / 2.0f,  Engine::get_screen_height() / 2.0f};
 	fps_display = new FPSDisplay(&fps_position, 970);
 	HUD::add(fps_display);
-
-	Input::unbind(fps_callback_id);
 }
 
 void delete_fps(SDL_Event *event)
