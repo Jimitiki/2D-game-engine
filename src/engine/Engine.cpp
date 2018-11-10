@@ -80,7 +80,7 @@ void Engine::run(IScene *scene)
 	prev_ticks = SDL_GetTicks();
 	SDL_Event event;
 
-	Stage::play_scene(scene);
+	Stage::start_scene(scene);
 
 	while (!end)
 	{

@@ -21,7 +21,7 @@ Vec2D Stage::get_bounds()
 	return bounds;
 }
 
-void Stage::play_scene(IScene *scene)
+void Stage::start_scene(IScene *scene)
 {
 	entities = scene->init();
 }
