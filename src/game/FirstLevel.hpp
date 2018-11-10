@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "../engine/Entity.hpp"
-#include "../engine/InputManager.hpp"
 
 class FirstLevel : public IScene
 {
