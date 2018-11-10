@@ -9,10 +9,8 @@ public:
 	UserControlComponent();
 
 private:
-	void move_l();
-	void move_r();
-	void move_u();
-	void move_d();
+	void move_h(short direction);
+	void move_v(short direction);
 };
 
 #endif
