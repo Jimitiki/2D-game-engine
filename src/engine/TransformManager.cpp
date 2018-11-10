@@ -7,7 +7,7 @@ void Transform::update(int delta_t, const std::vector<Entity*>* entities)
 {
 	for (Entity* entity : *entities)
 	{
-		if (entity->get_type_id() & (Component::Type::GRAPHICS | Component::Type::MOVEMENT))
+		if (entity->get_type_id() & Component::Type::TRANSFORM && entity->get_type_id() & Component::Type::MOVEMENT)
 		{
 			TransformComponent* component = (TransformComponent*) entity->get_component(Component::Type::TRANSFORM);
 			MovementComponent* m_component = (MovementComponent*) entity->get_component(Component::Type::MOVEMENT);
