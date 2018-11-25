@@ -11,6 +11,7 @@
 #include "Cursor.hpp"
 #include "geometry.hpp"
 #include "Stage.hpp"
+#include "EventManager.hpp"
 
 
 namespace Engine
@@ -27,13 +28,26 @@ namespace Engine
 	void update();
 	void draw();
 	void quit();
+	void terminate(SDL_Event* event);
 
-	void escape(SDL_Event *event);
+	void escape(SDL_Event* event);
 }
 
-void Engine::escape(SDL_Event *event)
+void Engine::escape(SDL_Event* event)
 {
-	end = true;
+	SDL_KeyboardEvent* key_event = (SDL_KeyboardEvent*) event;
+	if (key_event->keysym.sym == SDLK_ESCAPE)
+	{
+		SDL_QuitEvent* quit_event = new SDL_QuitEvent;
+		quit_event->type = SDL_QUIT;
+		quit_event->timestamp = key_event->timestamp;
+		SDL_PushEvent((SDL_Event*) quit_event);
+	}
+}
+
+void Engine::terminate(SDL_Event* event)
+{
+	Engine::end = true;
 }
 
 SDL_Renderer *Engine::get_renderer()
@@ -76,21 +90,20 @@ void Engine::quit()
 
 void Engine::run(IScene *scene)
 {
-	end = false;
+	Engine::end = false;
 	prev_ticks = SDL_GetTicks();
 	SDL_Event event;
 
 	Stage::play_scene(scene);
 
-	while (!end)
+	Event::Handler quit_handler{SDL_QUIT, Engine::terminate};
+	Event::bind(&quit_handler);
+	Event::Handler esc_handler{SDL_KEYUP, Engine::escape};
+	Event::bind(&esc_handler);
+
+	while (!Engine::end)
 	{
-		while (SDL_PollEvent(&event) != 0)
-		{
-			if (event.type == SDL_QUIT)
-			{
-				end = true;
-			}
-		}
+		while (SDL_PollEvent(&event));
 
 		int ticks = SDL_GetTicks();
 		delta_time = ticks - prev_ticks;
@@ -100,6 +113,8 @@ void Engine::run(IScene *scene)
 		update();
 		draw();
 	}
+	Event::unbind(&quit_handler);
+	Event::unbind(&esc_handler);
 	quit();
 }
 
