@@ -7,11 +7,12 @@
 
 namespace Event
 {
-	typedef std::function<void(SDL_Event*)> Callback;
+	typedef std::function<void(SDL_Event*, void*)> Callback;
 	typedef struct
 	{
-		SDL_EventType event_type;
+		SDL_EventType type;
 		Event::Callback callback;
+		void* arg;
 	} Handler;
 
 	void bind(Event::Handler* handler);

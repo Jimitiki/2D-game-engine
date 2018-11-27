@@ -8,9 +8,9 @@ namespace Event
 int Event::handle(void* userdata, SDL_Event* event)
 {
 	Event::Handler* handler = (Event::Handler*) userdata;
-	if (event->type == handler->event_type)
+	if (event->type == handler->type)
 	{
-		handler->callback(event);
+		handler->callback(event, handler->arg);
 	}
 	return 0;
 }
