@@ -12,7 +12,7 @@
 #include "geometry.hpp"
 #include "Stage.hpp"
 #include "EventManager.hpp"
-
+#include "InputManager.hpp"
 
 namespace Engine
 {
@@ -28,24 +28,20 @@ namespace Engine
 	void update();
 	void draw();
 	void quit();
-	void terminate(SDL_Event* event);
+	void terminate(SDL_Event* event, void* arg);
 
-	void escape(SDL_Event* event);
+	void escape(void* arg);
 }
 
-void Engine::escape(SDL_Event* event)
+void Engine::escape(void* arg)
 {
-	SDL_KeyboardEvent* key_event = (SDL_KeyboardEvent*) event;
-	if (key_event->keysym.sym == SDLK_ESCAPE)
-	{
-		SDL_QuitEvent* quit_event = new SDL_QuitEvent;
-		quit_event->type = SDL_QUIT;
-		quit_event->timestamp = key_event->timestamp;
-		SDL_PushEvent((SDL_Event*) quit_event);
-	}
+	SDL_QuitEvent* quit_event = new SDL_QuitEvent;
+	quit_event->type = SDL_QUIT;
+	//quit_event->timestamp = key_event->timestamp;
+	SDL_PushEvent((SDL_Event*) quit_event);
 }
 
-void Engine::terminate(SDL_Event* event)
+void Engine::terminate(SDL_Event* event, void* arg)
 {
 	Engine::end = true;
 }
@@ -96,10 +92,10 @@ void Engine::run(IScene *scene)
 
 	Stage::play_scene(scene);
 
-	Event::Handler quit_handler{SDL_QUIT, Engine::terminate};
+	Event::Handler quit_handler{SDL_QUIT, Engine::terminate, nullptr};
 	Event::bind(&quit_handler);
-	Event::Handler esc_handler{SDL_KEYUP, Engine::escape};
-	Event::bind(&esc_handler);
+	Input::Handler esc_handler{Input::UP, SDLK_ESCAPE, Engine::escape, nullptr};
+	Input::bind(&esc_handler);
 
 	while (!Engine::end)
 	{
@@ -114,7 +110,7 @@ void Engine::run(IScene *scene)
 		draw();
 	}
 	Event::unbind(&quit_handler);
-	Event::unbind(&esc_handler);
+	Input::unbind(&esc_handler);
 	quit();
 }
 
