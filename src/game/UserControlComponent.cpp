@@ -1,39 +1,27 @@
 #include "UserControlComponent.hpp"
 
-#include "../engine/TransformComponent.hpp"
+#include "../engine/MovementComponent.hpp"
 
 UserControlComponent::UserControlComponent()
 {
-	Control::DigitalAction l_action = std::bind(&UserControlComponent::move_l, this);
-	Control::DigitalAction r_action = std::bind(&UserControlComponent::move_r, this);
-	Control::DigitalAction u_action = std::bind(&UserControlComponent::move_u, this);
-	Control::DigitalAction d_action = std::bind(&UserControlComponent::move_d, this);
+	Control::DigitalAction l_action = std::bind(&UserControlComponent::move_h, this, -1);
+	Control::DigitalAction r_action = std::bind(&UserControlComponent::move_h, this, 1);
+	Control::DigitalAction u_action = std::bind(&UserControlComponent::move_v, this, -1);
+	Control::DigitalAction d_action = std::bind(&UserControlComponent::move_v, this, 1);
 	this->bind(&l_action, "movel");
 	this->bind(&r_action, "mover");
 	this->bind(&u_action, "moveu");
 	this->bind(&d_action, "moved");
 }
 
-void UserControlComponent::move_l()
+void UserControlComponent::move_h(short direction)
 {
-	TransformComponent* t_component = (TransformComponent*) this->get_sibling_component(Component::Type::TRANSFORM);
-	t_component->position.x -= 0.5;
+	MovementComponent* m_component = (MovementComponent*) this->get_sibling_component(Component::Type::MOVEMENT);
+	m_component->velocity.x = direction * 120;
 }
 
-void UserControlComponent::move_r()
+void UserControlComponent::move_v(short direction)
 {
-	TransformComponent* t_component = (TransformComponent*) this->get_sibling_component(Component::Type::TRANSFORM);
-	t_component->position.x += 0.5;
-}
-
-void UserControlComponent::move_u()
-{
-	TransformComponent* t_component = (TransformComponent*) this->get_sibling_component(Component::Type::TRANSFORM);
-	t_component->position.y -= 0.5;
-}
-
-void UserControlComponent::move_d()
-{
-	TransformComponent* t_component = (TransformComponent*) this->get_sibling_component(Component::Type::TRANSFORM);
-	t_component->position.y += 0.5;
+	MovementComponent* m_component = (MovementComponent*) this->get_sibling_component(Component::Type::MOVEMENT);
+	m_component->velocity.y = direction * 120;
 }

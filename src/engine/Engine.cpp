@@ -90,7 +90,7 @@ void Engine::run(IScene *scene)
 	prev_ticks = SDL_GetTicks();
 	SDL_Event event;
 
-	Stage::play_scene(scene);
+	Stage::start_scene(scene);
 
 	Event::Handler quit_handler{SDL_QUIT, Engine::terminate, nullptr};
 	Event::bind(&quit_handler);
