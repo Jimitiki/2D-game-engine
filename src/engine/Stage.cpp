@@ -8,10 +8,6 @@
 
 namespace Stage
 {
-	namespace
-	{
-		
-	}
 	Vec2D bounds;
 	std::vector<Entity *> *entities;
 }
@@ -28,7 +24,6 @@ void Stage::play_scene(IScene *scene)
 
 void Stage::update(int delta_time)
 {
-	Input::update(delta_time, entities);
 	Movement::update(delta_time, Stage::entities);
 	Transform::update(delta_time, Stage::entities);
 	Control::update(delta_time, Stage::entities);
