@@ -12,10 +12,9 @@ public:
 	{
 		NONE      = 0,
 		GRAPHICS  = 1,
-		INPUT     = 2,
-		CONTROL   = 4,
-		TRANSFORM = 8,
-		MOVEMENT  = 16
+		CONTROL   = 2,
+		TRANSFORM = 4,
+		MOVEMENT  = 8
 	} Type;
 
 	virtual ~Component() {}

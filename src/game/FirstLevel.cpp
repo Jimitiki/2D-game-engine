@@ -5,7 +5,6 @@
 #include "../engine/HUDManager.hpp"
 #include "../engine/Timer.hpp"
 #include "../engine/Cursor.hpp"
-#include "../engine/InputComponent.hpp"
 #include "../engine/GraphicsComponent.hpp"
 #include "../engine/TransformComponent.hpp"
 #include "SquareMovementComponent.hpp"
@@ -66,14 +65,8 @@ std::vector<Entity *> * FirstLevel::init()
 	entity = new Entity();
 	position = {0, 0};
 	UserControlComponent* u_component = new UserControlComponent();
-	InputComponent* i_component = new InputComponent();
-	i_component->key_inputs[SDL_SCANCODE_LEFT] = "movel";
-	i_component->key_inputs[SDL_SCANCODE_RIGHT] = "mover";
-	i_component->key_inputs[SDL_SCANCODE_UP] = "moveu";
-	i_component->key_inputs[SDL_SCANCODE_DOWN] = "moved";
 
 	entity->add_component(u_component);
-	entity->add_component(i_component);
 	entity->add_component(new GraphicsComponent(&square_img, &src, &dest));
 	entity->add_component(new TransformComponent(&position, 0, &scale));
 	entity->add_component(new MovementComponent(&velocity, 0));
