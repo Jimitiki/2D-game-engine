@@ -12,19 +12,13 @@ namespace Input
 	Event::Handler* remove_event_handler(Input::Handler* input_handler);
 
 	const uint8_t* key_state;
-	uint8_t* prev_key_state;
-	std::unordered_map<SDL_Keycode, std::unordered_map<Input::Handler*, Event::Handler*>> down_events;
-	std::unordered_map<SDL_Keycode, std::unordered_map<Input::Handler*, Event::Handler*>> hold_events;
-	std::unordered_map<SDL_Keycode, std::unordered_map<Input::Handler*, Event::Handler*>> up_events;
-	const std::unordered_map<Input::Type, SDL_EventType> input_types{{Input::DOWN, SDL_KEYDOWN}, {Input::HOLD, SDL_KEYDOWN}, {Input::UP, SDL_KEYUP}};
-	const std::unordered_map<Input::Type, std::unordered_map<SDL_Keycode, std::unordered_map<Input::Handler*, Event::Handler*>>*> input_maps{{Input::DOWN, &down_events}, {Input::HOLD, &hold_events}, {Input::UP, &up_events}};
+	int num_keys;
+	std::unordered_map<SDL_Keycode, std::unordered_map<Input::Handler*, Event::Handler*>> input_handlers;
 };
 
 void Input::init()
 {
-	int num_keys;
 	Input::key_state = SDL_GetKeyboardState(&num_keys);
-	Input::prev_key_state = new uint8_t[num_keys]();
 }
 
 void Input::handle(SDL_Event* event, void* arg)
@@ -39,7 +33,7 @@ void Input::handle(SDL_Event* event, void* arg)
 void Input::bind(Input::Handler* handler)
 {
 	Event::Handler* event_handler = new Event::Handler;
-	event_handler->type = input_types.at(handler->type);
+	event_handler->type = SDL_KEYDOWN;
 	event_handler->arg = (void*) handler;
 	event_handler->callback = Input::handle;
 	Event::bind(event_handler);
@@ -56,23 +50,18 @@ void Input::unbind(Input::Handler* handler)
 	}
 }
 
-void Input::destroy()
-{
-	delete[] Input::prev_key_state;
-}
+void Input::destroy() {}
 
 bool Input::add_event_handler(Input::Handler* input_handler, Event::Handler* event_handler)
 {
-	std::unordered_map<SDL_Keycode, std::unordered_map<Input::Handler*, Event::Handler*>>* m = Input::input_maps.at(input_handler->type);
-	std::pair<std::unordered_map<Input::Handler*, Event::Handler*>::iterator, bool> result = (*m)[input_handler->key].insert(std::pair<Input::Handler*, Event::Handler*>(input_handler, event_handler));
+	std::pair<std::unordered_map<Input::Handler*, Event::Handler*>::iterator, bool> result = input_handlers[input_handler->key].insert(std::pair<Input::Handler*, Event::Handler*>(input_handler, event_handler));
 	return result.second;
 }
 
 Event::Handler* Input::remove_event_handler(Input::Handler* input_handler)
 {
-	std::unordered_map<SDL_Keycode, std::unordered_map<Input::Handler*, Event::Handler*>>* m = Input::input_maps.at(input_handler->type);
-	std::unordered_map<SDL_Keycode, std::unordered_map<Input::Handler*, Event::Handler*>>::iterator m_it = m->find(input_handler->type);
-	if (m_it != m->end())
+	std::unordered_map<SDL_Keycode, std::unordered_map<Input::Handler*, Event::Handler*>>::iterator m_it = input_handlers.find(input_handler->key);
+	if (m_it != input_handlers.end())
 	{
 		std::unordered_map<Input::Handler*, Event::Handler*>::iterator handler_it = m_it->second.find(input_handler);
 		if (handler_it != m_it->second.end())

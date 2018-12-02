@@ -94,7 +94,7 @@ void Engine::run(IScene *scene)
 
 	Event::Handler quit_handler{SDL_QUIT, Engine::terminate, nullptr};
 	Event::bind(&quit_handler);
-	Input::Handler esc_handler{Input::UP, SDLK_ESCAPE, Engine::escape, nullptr};
+	Input::Handler esc_handler{SDLK_ESCAPE, Engine::escape, nullptr};
 	Input::bind(&esc_handler);
 
 	while (!Engine::end)
