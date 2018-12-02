@@ -3,6 +3,7 @@
 
 #include "FPSDisplay.hpp"
 #include "../engine/AssetManager.hpp"
+#include "../engine/InputManager.hpp"
 #include "../engine/Animation.hpp"
 
 FPSDisplay::FPSDisplay(Vec2D *position, int update_time) : HUDElement(position)
@@ -64,6 +65,7 @@ void FPSDisplay::draw(SDL_Renderer *renderer)
 		std::stringstream fps_stream;
 		fps_stream << fps;
 		std::string fps_string = fps_stream.str();
+		fps_string = Input::get_keys_pressed();
 
 		SDL_Surface *fps_surface = TTF_RenderText_Solid(font, fps_string.c_str(), {0, 0, 0});
 		if (fps_surface == nullptr)

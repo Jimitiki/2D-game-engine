@@ -24,6 +24,7 @@ namespace Input
 	void unbind(Input::Handler* handler);
 	void bind(Input::Handler* handler);
 	void destroy();
+	std::string get_keys_pressed();
 }
 
 #endif

@@ -72,3 +72,21 @@ Event::Handler* Input::remove_event_handler(Input::Handler* input_handler)
 	}
 	return nullptr;
 }
+
+std::string Input::get_keys_pressed()
+{
+	std::string keys_pressed;
+	for (int i = 0; i < Input::num_keys; i++)
+	{
+		if (Input::key_state[i] == 1)
+		{
+			const char* key_name = SDL_GetKeyName(i);
+			keys_pressed += key_name;
+			if (i < Input::num_keys - 1)
+			{
+				keys_pressed += ", ";
+			}
+		}
+	}
+	return keys_pressed;
+}
